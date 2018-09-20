@@ -13,6 +13,8 @@
           v-for="bucketlist in bucketlists"
           :key="bucketlist.url"
           :bucketlist="bucketlist"
+          :allowEdit="allowEdit"
+          v-model="bucketlistName"
           v-on:delete="deleteBucketlist"
           v-on:edit="editBucketlist"
           v-on:add="addBucketlist"
@@ -49,11 +51,13 @@ export default {
       signedIn: false,
       bucketlists: [],
       newBucketlist: '',
-      done: false,
+      bucketlistDone: false,
       user: 'Login',
       errors: '',
       email: '',
       password: '',
+      allowEdit: false,
+      bucketlistName: '',
     };
   },
   methods: {
@@ -112,18 +116,19 @@ export default {
           this.errors.push(error);
         });
     },
-    editBucketlist(url) {
-      axios({
-        method: 'put',
-        url,
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-        data: {
-          name: this.newBucketlist,
-        },
-      });
+    editBucketlist() {
+      this.allowEdit = !this.allowEdit;
+      // axios({
+      //   method: 'put',
+      //   url,
+      //   headers: {
+      //     Authorization: `Token ${window.localStorage.getItem('token')}`,
+      //     'content-Type': 'application/json',
+      //   },
+      //   data: {
+      //     name: this.newBucketlist,
+      //   },
+      // });
     },
     addBucketlist() {
       axios({
