@@ -1,21 +1,22 @@
 <template>
   <div>
     <li>
-      <span v-show="!allowEdit">{{ bucketlist.name }}</span>
-      <input v-show="allowEdit" :value="bucketlist.name" type="text">
-      <button v-on:click="$emit('edit', bucketlist.url)">Edit</button>
+      <span v-if="!allowEdit">{{ bucketlist.name }}</span>
+      <input v-if="allowEdit" type="text" v-model="newName" v-on:keyup.enter="editBucketlist">
+      <button v-on:click="toggleEdit">Edit</button>
       <button v-on:click="$emit('delete', bucketlist.url)">Delete</button>
     </li>
   </div>
 </template>
 
 <script>
-import UpdateBucketlist from './UpdateBucketlist';
+import axios from 'axios';
 
 export default {
   data() {
     return {
-      allowEdi: '',
+      allowEdit: false,
+      newName: this.bucketlist.name,
     };
   },
   props: {
@@ -23,9 +24,27 @@ export default {
       type: Object,
       required: true,
     },
-    allowEdit: {
-      type: Boolean,
-      default: true,
+  },
+  methods: {
+    toggleEdit() {
+      this.allowEdit = !this.allowEdit;
+    },
+    editBucketlist() {
+      axios({
+        method: 'patch',
+        url: this.bucketlist.url,
+        headers: {
+          Authorization: `Token ${window.localStorage.getItem('token')}`,
+          'content-Type': 'application/json',
+        },
+        data: {
+          name: this.newName,
+        },
+      })
+        .then(() => {
+          this.bucketlist.name = this.newName;
+          this.toggleEdit();
+        });
     },
   },
 };

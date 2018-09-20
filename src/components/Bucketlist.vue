@@ -7,17 +7,17 @@
       <li>{{ user }} </li>
     </ul>
     <div v-if="signedIn">
-      <input type='text' v-model.trim="newBucketlist" v-on:keyup.enter="addBucketlist">
+      <input
+        type='text'
+        v-model.trim="newBucketlist"
+        v-on:keyup.enter="addBucketlist"
+      >
       <ul v-if="bucketlists.length">
         <ListBucketlist
           v-for="bucketlist in bucketlists"
           :key="bucketlist.url"
           :bucketlist="bucketlist"
-          :allowEdit="allowEdit"
-          v-model="bucketlistName"
           v-on:delete="deleteBucketlist"
-          v-on:edit="editBucketlist"
-          v-on:add="addBucketlist"
         />
       </ul>
     </div>
@@ -51,13 +51,10 @@ export default {
       signedIn: false,
       bucketlists: [],
       newBucketlist: '',
-      bucketlistDone: false,
       user: 'Login',
       errors: '',
       email: '',
       password: '',
-      allowEdit: false,
-      bucketlistName: '',
     };
   },
   methods: {
@@ -115,20 +112,6 @@ export default {
         .catch((error) => {
           this.errors.push(error);
         });
-    },
-    editBucketlist() {
-      this.allowEdit = !this.allowEdit;
-      // axios({
-      //   method: 'put',
-      //   url,
-      //   headers: {
-      //     Authorization: `Token ${window.localStorage.getItem('token')}`,
-      //     'content-Type': 'application/json',
-      //   },
-      //   data: {
-      //     name: this.newBucketlist,
-      //   },
-      // });
     },
     addBucketlist() {
       axios({
