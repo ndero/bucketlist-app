@@ -146,8 +146,7 @@ export default {
         },
       })
         .then(() => {
-          const index = this.items.map(item =>
-            item.url).indexOf(url);
+          const index = this.items.map(item => item.url).indexOf(url);
           this.items.splice(index, 1);
         });
     },

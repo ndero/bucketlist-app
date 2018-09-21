@@ -22,25 +22,9 @@
       </ul>
     </div>
     <div v-else>
-      <form v-on:submit.prevent="loginUser">
-        <label>
-          Email
-          <input
-            placeholder="Your email"
-            type="email"
-            v-model.trim.lazy="email"
-          >
-        </label>
-        <label>
-          Password
-          <input
-            placeholder="Your password"
-            type="password"
-            v-model.trim.lazy="password"
-          >
-        </label>
-        <button type="submit">Login</button>
-      </form>
+     <Register
+      v-on:login="loginUser"
+    />
     </div>
   </div>
 </template>
@@ -48,11 +32,13 @@
 <script>
 import axios from 'axios';
 import EditBucketlist from './EditBucketlist';
+import Register from './Register';
 
 export default {
   name: 'Bucketlists',
   components: {
     EditBucketlist,
+    Register,
   },
   data() {
     return {
@@ -61,19 +47,17 @@ export default {
       newBucketlist: '',
       user: 'Login',
       errors: '',
-      email: '',
-      password: '',
     };
   },
   methods: {
-    loginUser() {
+    loginUser(email, password) {
       axios({
         method: 'post',
         url: 'http://127.0.0.1:8000/api-token-auth/',
         datatype: 'json',
         data: {
-          username: this.email,
-          password: this.password,
+          username: email,
+          password,
         },
       })
         .then((response) => {
@@ -113,8 +97,7 @@ export default {
         },
       })
         .then(() => {
-          const index = this.bucketlists.map(bucketlist =>
-            bucketlist.url).indexOf(url);
+          const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
           this.bucketlists.splice(index, 1);
         })
         .catch((error) => {
