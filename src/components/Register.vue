@@ -13,7 +13,7 @@
         and share with your friends. The bucketlist App does just that for you!
       </h3>
     </div>
-    <form v-on:submit.prevent="loginUser">
+    <form v-on:submit.prevent>
       <label>
         Email
         <input
@@ -42,8 +42,8 @@
         Already have an account?
         <a v-on:click.prevent="toggleSignUp" href="/">Sign up</a>
       </span>
-      <button v-show="signUp" type="submit">Register</button>
-      <button v-show="!signUp" type="submit">Login </button>
+      <button v-show="signUp" type="submit" v-on:click="registerUser">Register</button>
+      <button v-show="!signUp" type="submit" v-on:click="loginUser">Login </button>
     </form>
   </div>
 </template>
@@ -90,12 +90,15 @@ export default {
           url: 'http://127.0.0.1:8000/register/',
           datatype: 'json',
           data: {
-            username: this.email,
+            email: this.email,
             password: this.password,
           },
         })
           .then(() => {
             this.loginUser();
+          })
+          .catch((error) => {
+            this.formErrors = error;
           });
       } else {
         this.formErrors = "passwords don't match";
