@@ -1,6 +1,7 @@
 <template>
   <div>
     <li>
+      <input type="checkbox" v-on:click="toggleBucketlistDone" :checked="bucketlist.done">
       <span v-if="!allowEdit">{{ bucketlist.name }}</span>
       <input v-if="allowEdit" type="text" v-model="newName" v-on:keyup.enter="editBucketlist">
       <button v-on:click="toggleEdit">Edit</button>
@@ -44,6 +45,22 @@ export default {
         .then(() => {
           this.bucketlist.name = this.newName;
           this.toggleEdit();
+        });
+    },
+    toggleBucketlistDone() {
+      axios({
+        method: 'patch',
+        url: this.bucketlist.url,
+        headers: {
+          Authorization: `Token ${window.localStorage.getItem('token')}`,
+          'content-Type': 'application/json',
+        },
+        data: {
+          done: !this.bucketlist.done,
+        },
+      })
+        .then(() => {
+          this.bucketlist.done = !this.bucketlist.done;
         });
     },
   },

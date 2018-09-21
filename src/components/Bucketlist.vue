@@ -47,7 +47,7 @@
 
 <script>
 import axios from 'axios';
-import ListBucketlist from './EditBucketlist';
+import EditBucketlist from './EditBucketlist';
 
 export default {
   name: 'Bucketlist',
