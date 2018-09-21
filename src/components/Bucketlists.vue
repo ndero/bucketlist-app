@@ -5,7 +5,7 @@
         <li> bucketlist App </li>
         <input placeholder="Search..." type="text">
         <li>{{ user }}</li>
-        <li> Logout </li>
+        <li v-on:click="logout"> Logout </li>
     </ul>
     <input
       type='text'
@@ -101,6 +101,10 @@ export default {
         .catch((error) => {
           this.errors.push(error);
         });
+    },
+    logout() {
+      window.localStorage.removeItem('token');
+      this.$router.replace({ name: 'Register' });
     },
   },
 };

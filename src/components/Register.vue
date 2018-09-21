@@ -3,8 +3,8 @@
     <ul>
       <li> Bucketlist Image </li>
       <li> Bucketlist App </li>
-      <li v-show="signUp" v-on:click="toggleSignUp">Login</li>
-      <li v-show="!signUp" v-on:click="toggleSignUp">Register</li>
+      <a href="/" v-show="signUp" v-on:click.prevent="toggleSignUp">Login</a>
+      <a href="/" v-show="!signUp" v-on:click.prevent="toggleSignUp">Register</a>
     </ul>
     <div v-show="signUp">
       <h2> Do you have big Dreams?</h2>
@@ -38,6 +38,10 @@
           v-model.trim.lazy="confirmPassword"
         >
       </label>
+      <span v-show="signUp">
+        Already have an account?
+        <a v-on:click.prevent="toggleSignUp" href="/">Sign up</a>
+      </span>
       <button v-show="signUp" type="submit">Register</button>
       <button v-show="!signUp" type="submit">Login </button>
     </form>
@@ -53,6 +57,7 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      formErrors: '',
       signUp: true,
     };
   },
@@ -72,22 +77,29 @@ export default {
       })
         .then((response) => {
           window.localStorage.setItem('token', response.data.token);
-          this.signedIn = true;
+          this.$router.replace({ name: 'Bucketlist' });
         })
         .catch((error) => {
           this.errors.push(error);
         });
     },
     registerUser() {
-      axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/register/',
-        datatype: 'json',
-        data: {
-          username: this.email,
-          password: this.password,
-        },
-      });
+      if (this.password === this.confirmPassword) {
+        axios({
+          method: 'post',
+          url: 'http://127.0.0.1:8000/register/',
+          datatype: 'json',
+          data: {
+            username: this.email,
+            password: this.password,
+          },
+        })
+          .then(() => {
+            this.loginUser();
+          });
+      } else {
+        this.formErrors = "passwords don't match";
+      }
     },
   },
 };
