@@ -1,5 +1,8 @@
 <template>
-  <li>{{ item.name }}</li>
+    <li>
+      <span>{{ item.name }}</span>
+      <button v-on:click="$emit('delete', item.url)">Delete</button>
+    </li>
 </template>
 
 <script>

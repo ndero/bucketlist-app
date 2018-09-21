@@ -22,16 +22,17 @@
       <button v-on:click="toggleEdit">Edit</button>
       <button v-on:click="$emit('delete', bucketlist.url)">Delete</button>
       <div v-if="showItems">
-          <input
-            type="text"
-            v-model.trim="newItem"
-            v-on:keyup.enter="addItem"
-          >
+        <input
+          type="text"
+          v-model.trim="newItem"
+          v-on:keyup.enter="addItem"
+        >
         <ul v-if="items.length">
           <Item
             v-for="item in items"
             :key="item.url"
             :item="item"
+            v-on:delete="deleteItem"
           />
         </ul>
       </div>
@@ -132,6 +133,22 @@ export default {
         .then((response) => {
           this.items.unshift(response.data);
           this.newItem = '';
+        });
+    },
+    deleteItem(url) {
+      axios({
+        method: 'delete',
+        url,
+        datatype: 'json',
+        headers: {
+          Authorization: `Token ${window.localStorage.getItem('token')}`,
+          'content-Type': 'application/json',
+        },
+      })
+        .then(() => {
+          const index = this.items.map(item =>
+            item.url).indexOf(url);
+          this.items.splice(index, 1);
         });
     },
   },
