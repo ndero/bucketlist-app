@@ -1,6 +1,10 @@
 <template>
     <li>
-      <input type="checkbox" :checked="item.done">
+      <input
+        type="checkbox"
+        :checked="item.done"
+        v-on:click.prevent="toggleItemDone"
+      >
       <span v-if="!allowEdit">{{ item.name }}</span>
       <input
         v-if="allowEdit"
@@ -49,6 +53,23 @@ export default {
         .then(() => {
           this.item.name = this.newName;
           this.toggleEdit();
+        });
+    },
+    toggleItemDone() {
+      axios({
+        method: 'patch',
+        url: this.item.url,
+        datatype: 'json',
+        headers: {
+          Authorization: `Token ${window.localStorage.getItem('token')}`,
+          'content-Type': 'application/json',
+        },
+        data: {
+          done: !this.item.done,
+        },
+      })
+        .then(() => {
+          this.item.done = !this.item.done;
         });
     },
   },

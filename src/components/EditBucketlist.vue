@@ -3,7 +3,7 @@
     <li>
       <input
         type="checkbox"
-        v-on:click="toggleBucketlistDone"
+        v-on:click.prevent="toggleBucketlistDone"
         :checked="bucketlist.done"
       >
       <input
