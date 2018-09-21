@@ -50,7 +50,7 @@ import axios from 'axios';
 import EditBucketlist from './EditBucketlist';
 
 export default {
-  name: 'Bucketlist',
+  name: 'Bucketlists',
   components: {
     EditBucketlist,
   },

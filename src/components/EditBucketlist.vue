@@ -1,24 +1,51 @@
 <template>
   <div>
     <li>
-      <input type="checkbox" v-on:click="toggleBucketlistDone" :checked="bucketlist.done">
-      <span v-if="!allowEdit">{{ bucketlist.name }}</span>
-      <input v-if="allowEdit" type="text" v-model="newName" v-on:keyup.enter="editBucketlist">
+      <input
+        type="checkbox"
+        v-on:click="toggleBucketlistDone"
+        :checked="bucketlist.done"
+      >
+      <input
+        v-if="allowEdit"
+        type="text"
+        v-model="newName"
+        v-on:keyup.enter="editBucketlist"
+      >
+      <span
+        v-if="!allowEdit"
+        v-on:click="toggleShowItems"
+        v-on:click.once="getItems"
+      >
+        {{ bucketlist.name }}
+      </span>
       <button v-on:click="toggleEdit">Edit</button>
       <button v-on:click="$emit('delete', bucketlist.url)">Delete</button>
+      <div v-if="showItems">
+          <input
+            type="text"
+            v-model.trim="newItem"
+            v-on:keyup.enter="addItem"
+          >
+        <ul v-if="items.length">
+          <Item
+            v-for="item in items"
+            :key="item.url"
+            :item="item"
+          />
+        </ul>
+      </div>
     </li>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Item from './Item';
 
 export default {
-  data() {
-    return {
-      allowEdit: false,
-      newName: this.bucketlist.name,
-    };
+  components: {
+    Item,
   },
   props: {
     bucketlist: {
@@ -26,9 +53,21 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      allowEdit: false,
+      showItems: false,
+      newName: this.bucketlist.name,
+      items: '',
+      newItem: '',
+    };
+  },
   methods: {
     toggleEdit() {
       this.allowEdit = !this.allowEdit;
+    },
+    toggleShowItems() {
+      this.showItems = !this.showItems;
     },
     editBucketlist() {
       axios({
@@ -61,6 +100,38 @@ export default {
       })
         .then(() => {
           this.bucketlist.done = !this.bucketlist.done;
+        });
+    },
+    getItems() {
+      axios({
+        method: 'get',
+        url: this.bucketlist.items_url,
+        datatype: 'json',
+        headers: {
+          Authorization: `Token ${window.localStorage.getItem('token')}`,
+          'content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          this.items = response.data.results;
+        });
+    },
+    addItem() {
+      axios({
+        method: 'post',
+        url: this.bucketlist.items_url,
+        datatype: 'json',
+        headers: {
+          Authorization: `Token ${window.localStorage.getItem('token')}`,
+          'content-Type': 'application/json',
+        },
+        data: {
+          name: this.newItem,
+        },
+      })
+        .then((response) => {
+          this.items.unshift(response.data);
+          this.newItem = '';
         });
     },
   },
