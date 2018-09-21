@@ -1,31 +1,25 @@
 <template>
-  <div class="landing-page">
+  <div>
     <ul>
-      <li> Bucketlist Image </li>
-      <li> Bucketlist App </li>
-      <input v-if="signedIn" placeholder="Search" />
-      <li>{{ user }} </li>
+        <li> Bucketlist Icon </li>
+        <li> bucketlist App </li>
+        <input placeholder="Search..." type="text">
+        <li>{{ user }}</li>
+        <li> Logout </li>
     </ul>
-    <div v-if="signedIn">
-      <input
-        type='text'
-        v-model.trim="newBucketlist"
-        v-on:keyup.enter="addBucketlist"
-      >
-      <ul v-if="bucketlists.length">
-        <EditBucketlist
-          v-for="bucketlist in bucketlists"
-          :key="bucketlist.url"
-          :bucketlist="bucketlist"
-          v-on:delete="deleteBucketlist"
-        />
-      </ul>
-    </div>
-    <div v-else>
-     <Register
-      v-on:login="loginUser"
-    />
-    </div>
+    <input
+      type='text'
+      v-model.trim="newBucketlist"
+      v-on:keyup.enter="addBucketlist"
+    >
+    <ul v-if="bucketlists.length">
+      <EditBucketlist
+        v-for="bucketlist in bucketlists"
+        :key="bucketlist.url"
+        :bucketlist="bucketlist"
+        v-on:delete="deleteBucketlist"
+      />
+    </ul>
   </div>
 </template>
 
@@ -42,33 +36,16 @@ export default {
   },
   data() {
     return {
-      signedIn: false,
       bucketlists: [],
       newBucketlist: '',
-      user: 'Login',
+      user: '',
       errors: '',
     };
   },
+  created() {
+    this.getBucketlists();
+  },
   methods: {
-    loginUser(email, password) {
-      axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/api-token-auth/',
-        datatype: 'json',
-        data: {
-          username: email,
-          password,
-        },
-      })
-        .then((response) => {
-          window.localStorage.setItem('token', response.data.token);
-          this.signedIn = true;
-          this.getBucketlists();
-        })
-        .catch((error) => {
-          this.errors.push(error);
-        });
-    },
     getBucketlists() {
       axios({
         method: 'get',
@@ -82,23 +59,6 @@ export default {
         .then((response) => {
           this.bucketlists = response.data.results;
           this.user = response.data.results[0].user;
-        })
-        .catch((error) => {
-          this.errors.push(error);
-        });
-    },
-    deleteBucketlist(url) {
-      axios({
-        method: 'delete',
-        url,
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-      })
-        .then(() => {
-          const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
-          this.bucketlists.splice(index, 1);
         })
         .catch((error) => {
           this.errors.push(error);
@@ -120,6 +80,23 @@ export default {
         .then((response) => {
           this.bucketlists.unshift(response.data);
           this.newBucketlist = '';
+        })
+        .catch((error) => {
+          this.errors.push(error);
+        });
+    },
+    deleteBucketlist(url) {
+      axios({
+        method: 'delete',
+        url,
+        headers: {
+          Authorization: `Token ${window.localStorage.getItem('token')}`,
+          'content-Type': 'application/json',
+        },
+      })
+        .then(() => {
+          const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
+          this.bucketlists.splice(index, 1);
         })
         .catch((error) => {
           this.errors.push(error);
