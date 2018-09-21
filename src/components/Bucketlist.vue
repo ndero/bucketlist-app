@@ -13,7 +13,7 @@
         v-on:keyup.enter="addBucketlist"
       >
       <ul v-if="bucketlists.length">
-        <ListBucketlist
+        <EditBucketlist
           v-for="bucketlist in bucketlists"
           :key="bucketlist.url"
           :bucketlist="bucketlist"
@@ -25,11 +25,19 @@
       <form v-on:submit.prevent="loginUser">
         <label>
           Email
-          <input placeholder="Your email" type="email" v-model.trim.lazy="email">
+          <input
+            placeholder="Your email"
+            type="email"
+            v-model.trim.lazy="email"
+          >
         </label>
         <label>
           Password
-          <input placeholder="Your pasword" type="password" v-model.trim.lazy="password">
+          <input
+            placeholder="Your password"
+            type="password"
+            v-model.trim.lazy="password"
+          >
         </label>
         <button type="submit">Login</button>
       </form>
@@ -39,12 +47,12 @@
 
 <script>
 import axios from 'axios';
-import ListBucketlist from './ListBucketlist';
+import ListBucketlist from './EditBucketlist';
 
 export default {
   name: 'Bucketlist',
   components: {
-    ListBucketlist,
+    EditBucketlist,
   },
   data() {
     return {
