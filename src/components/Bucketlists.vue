@@ -8,6 +8,7 @@
         <li v-on:click="logout"> Logout </li>
     </ul>
     <input
+      placeholder="Add a new bucketlist"
       type='text'
       v-model.trim="newBucketlist"
       v-on:keyup.enter="addBucketlist"
@@ -20,6 +21,7 @@
         v-on:delete="deleteBucketlist"
       />
     </ul>
+    <p v-else> You don't have any bucketlist yet. </p>
   </div>
 </template>
 
@@ -33,6 +35,13 @@ export default {
   components: {
     EditBucketlist,
     Register,
+  },
+  beforeRouteEnter(to, from, next) {
+    if (!window.localStorage.getItem('token')) {
+      next({ name: 'Register' });
+    } else {
+      next();
+    }
   },
   data() {
     return {

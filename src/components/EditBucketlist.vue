@@ -23,6 +23,7 @@
       <button v-on:click="$emit('delete', bucketlist.url)">Delete</button>
       <div v-if="showItems">
         <input
+          placeholder="Add an item"
           type="text"
           v-model.trim="newItem"
           v-on:keyup.enter="addItem"

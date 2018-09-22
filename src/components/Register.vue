@@ -3,8 +3,8 @@
     <ul>
       <li> Bucketlist Image </li>
       <li> Bucketlist App </li>
-      <a href="/" v-show="signUp" v-on:click.prevent="toggleSignUp">Login</a>
-      <a href="/" v-show="!signUp" v-on:click.prevent="toggleSignUp">Register</a>
+      <a href="/register" v-show="signUp" v-on:click.prevent="toggleSignUp">Login</a>
+      <a href="/register" v-show="!signUp" v-on:click.prevent="toggleSignUp">Register</a>
     </ul>
     <div v-show="signUp">
       <h2> Do you have big Dreams?</h2>
@@ -40,7 +40,7 @@
       </label>
       <span v-show="signUp">
         Already have an account?
-        <a v-on:click.prevent="toggleSignUp" href="/">Sign up</a>
+        <a v-on:click.prevent="toggleSignUp" href="/register">Sign in</a>
       </span>
       <button v-show="signUp" type="submit" v-on:click="registerUser">Register</button>
       <button v-show="!signUp" type="submit" v-on:click="loginUser">Login </button>
