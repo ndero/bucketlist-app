@@ -2,6 +2,7 @@
   <div>
     <ul>
         <li> Bucketlist Icon </li>
+        <span>{{ count }}</span>
         <li> bucketlist App </li>
         <input placeholder="Search..." type="text">
         <li>{{ user }}</li>
@@ -49,6 +50,7 @@ export default {
       newBucketlist: '',
       user: '',
       errors: '',
+      count: '',
     };
   },
   created() {
@@ -68,6 +70,7 @@ export default {
         .then((response) => {
           this.bucketlists = response.data.results;
           this.user = response.data.results[0].user;
+          this.count = response.data.count;
         })
         .catch((error) => {
           this.errors.push(error);
@@ -89,6 +92,7 @@ export default {
         .then((response) => {
           this.bucketlists.unshift(response.data);
           this.newBucketlist = '';
+          this.count += 1;
         })
         .catch((error) => {
           this.errors.push(error);
@@ -106,6 +110,7 @@ export default {
         .then(() => {
           const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
           this.bucketlists.splice(index, 1);
+          this.count -= 1;
         })
         .catch((error) => {
           this.errors.push(error);
