@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import Bucketlists from '@/components/Bucketlists';
+import router from '@/router';
 
 jest.mock('axios', () => ({
   get: jest.fn(() => Promise.resolve({
@@ -29,13 +30,9 @@ describe(' Bucketlist tests', () => {
   let cmp;
 
   beforeEach(() => {
-    cmp = shallowMount(Bucketlists);
+    cmp = shallowMount(Bucketlists, { router });
     jest.resetModules();
     jest.clearAllMocks();
-  });
-
-  it('matches snapshot', () => {
-    expect(cmp.vm.$el).toMatchSnapshot();
   });
 
   it('gets bucketlists', async () => {
@@ -51,7 +48,6 @@ describe(' Bucketlist tests', () => {
     });
     expect(cmp.vm.count).toEqual(3);
   });
-
   it('adds a bucketlist', async () => {
     const result = await cmp.vm.addBucketlist();
     expect(result).toEqual({
@@ -66,9 +62,12 @@ describe(' Bucketlist tests', () => {
       },
     });
   });
-
   it('deletes a bucketlist', async () => {
     await cmp.vm.deleteBucketlist('http://127.0.0.1:8000/bucketlists/1/');
     expect(cmp.vm.count).toEqual(2);
+  });
+  it('log the user out', () => {
+    cmp.find('li#logout').trigger('click');
+    expect(cmp.vm.$router.history.current.name).toEqual('Register');
   });
 });

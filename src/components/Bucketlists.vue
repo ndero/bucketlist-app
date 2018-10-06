@@ -6,7 +6,7 @@
         <li> bucketlist App </li>
         <input placeholder="Search..." type="text">
         <li>{{ user }}</li>
-        <li v-on:click="logout"> Logout </li>
+        <li id="logout" v-on:click="logout"> Logout </li>
     </ul>
     <input
       placeholder="Add a new bucketlist"
@@ -50,7 +50,6 @@ export default {
       bucketlists: [],
       newBucketlist: '',
       user: '',
-      errors: '',
       count: 0,
       page: 1,
     };
@@ -60,41 +59,27 @@ export default {
   },
   methods: {
     async getBucketlists() {
-      let response;
-      try {
-        response = await axios.get(`http://127.0.0.1:8000/bucketlists/?page=${this.page}`,
-          { headers: config.headers });
-        this.bucketlists = response.data.results;
-        this.count = response.data.count;
-        this.user = response.data.results[0].user;
-      } catch (error) {
-        this.errors.push(error);
-      }
+      const response = await axios.get(`http://127.0.0.1:8000/bucketlists/?page=${this.page}`,
+        { headers: config.headers });
+      this.bucketlists = response.data.results;
+      this.count = response.data.count;
+      this.user = response.data.results[0].user;
       return response;
     },
     async addBucketlist() {
-      let response;
       const data = { name: this.newBucketlist, items: [] };
-      try {
-        response = await axios.post('http://127.0.0.1:8000/bucketlists/',
-          data, { headers: config.headers });
-        this.bucketlists.unshift(response.data);
-        this.newBucketlist = '';
-        this.count += 1;
-      } catch (error) {
-        this.errors.push(error);
-      }
+      const response = await axios.post('http://127.0.0.1:8000/bucketlists/',
+        data, { headers: config.headers });
+      this.bucketlists.unshift(response.data);
+      this.newBucketlist = '';
+      this.count += 1;
       return response;
     },
     async deleteBucketlist(url) {
-      try {
-        await axios.delete(url, { headers: config.headers });
-        const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
-        this.bucketlists.splice(index, 1);
-        this.count -= 1;
-      } catch (error) {
-        this.errors.push(error);
-      }
+      await axios.delete(url, { headers: config.headers });
+      const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
+      this.bucketlists.splice(index, 1);
+      this.count -= 1;
     },
     logout() {
       window.localStorage.removeItem('token');

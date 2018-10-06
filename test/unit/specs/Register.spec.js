@@ -30,7 +30,8 @@ describe('Register tests', () => {
     expect(axios.post).toHaveBeenCalledTimes(2);
   });
   it('cannot register with unmatching passwords', async () => {
-    cmp.setData({ password: 'pass123', confirPassword: '123pass' });
+    cmp.vm.password = 'pass123';
+    cmp.vm.confirmPassword = '123pass';
     await cmp.vm.registerUser();
     expect(cmp.vm.formErrors).toEqual("passwords don't match");
   });
