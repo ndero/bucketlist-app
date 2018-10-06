@@ -50,31 +50,32 @@ export default {
       newBucketlist: '',
       user: '',
       errors: '',
-      count: '',
+      count: 0,
+      page: 1,
     };
-  },
-  created() {
-    this.getBucketlists();
   },
   methods: {
     getBucketlists() {
-      axios({
-        method: 'get',
-        url: 'http://127.0.0.1:8000/bucketlists/',
-        datatype: 'json',
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          this.bucketlists = response.data.results;
-          this.user = response.data.results[0].user;
-          this.count = response.data.count;
-        })
-        .catch((error) => {
-          this.errors.push(error);
+      const getPromise = axios.get(
+        `http://127.0.0.1:8000/bucketlists/?page=${this.page}`, {
+          datatype: 'json',
+          headers: {
+            Authorization: `Token ${window.localStorage.getItem('token')}`,
+            'content-Type': 'application/json',
+          },
         });
+
+      getPromise.then((response) => {
+        this.bucketlists = response.data.results;
+        this.user = response.data.results[0].user;
+        this.count = response.data.count;
+      });
+
+      getPromise.catch((error) => {
+        this.errors.push(error);
+      });
+
+      return getPromise;
     },
     addBucketlist() {
       axios({

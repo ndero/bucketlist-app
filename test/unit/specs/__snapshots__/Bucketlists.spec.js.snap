@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` Bucketlist vue matches snapshot 1`] = `
+<div>
+  <ul>
+    <li>
+       Bucketlist Icon 
+    </li>
+     
+    <span>
+      0
+    </span>
+     
+    <li>
+       bucketlist App 
+    </li>
+     
+    <input
+      placeholder="Search..."
+      type="text"
+    />
+     
+    <li>
+      
+    </li>
+     
+    <li>
+       Logout 
+    </li>
+  </ul>
+   
+  <input
+    placeholder="Add a new bucketlist"
+    type="text"
+  />
+   
+  <p>
+     You don't have any bucketlist yet. 
+  </p>
+</div>
+`;
