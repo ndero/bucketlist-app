@@ -54,68 +54,64 @@ export default {
       page: 1,
     };
   },
+  created() {
+    this.getBucketlists();
+  },
   methods: {
-    getBucketlists() {
-      const getPromise = axios.get(
-        `http://127.0.0.1:8000/bucketlists/?page=${this.page}`, {
-          datatype: 'json',
+    async getBucketlists() {
+      let response;
+      try {
+        response = await axios.get(
+          `http://127.0.0.1:8000/bucketlists/?page=${this.page}`, {
+            datatype: 'json',
+            headers: {
+              Authorization: `Token ${window.localStorage.getItem('token')}`,
+              'content-Type': 'application/json',
+            },
+          });
+        this.bucketlists = response.data.results;
+        this.count = response.data.count;
+        this.user = response.data.results[0].user;
+      } catch (error) {
+        this.errors.puch(error);
+      }
+      return response;
+    },
+    async addBucketlist() {
+      let response;
+      try {
+        response = axios.post('http://127.0.0.1:8000/bucketlists/', {
+          headers: {
+            Authorization: `Token ${window.localStorage.getItem('token')}`,
+            'content-type': 'application/json',
+          },
+          data: {
+            name: this.newBucketlist,
+            items: [],
+          },
+        });
+        this.bucketlists.unshift(response.data);
+        this.newBucketlist = '';
+        this.count += 1;
+      } catch (error) {
+        this.errors.push(error);
+      }
+      return response;
+    },
+    async deleteBucketlist(url) {
+      try {
+        await axios.delete(url, {
           headers: {
             Authorization: `Token ${window.localStorage.getItem('token')}`,
             'content-Type': 'application/json',
           },
         });
-
-      getPromise.then((response) => {
-        this.bucketlists = response.data.results;
-        this.user = response.data.results[0].user;
-        this.count = response.data.count;
-      });
-
-      getPromise.catch((error) => {
+        const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
+        this.bucketlists.splice(index, 1);
+        this.count -= 1;
+      } catch (error) {
         this.errors.push(error);
-      });
-
-      return getPromise;
-    },
-    addBucketlist() {
-      axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/bucketlists/',
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-type': 'application/json',
-        },
-        data: {
-          name: this.newBucketlist,
-          items: [],
-        },
-      })
-        .then((response) => {
-          this.bucketlists.unshift(response.data);
-          this.newBucketlist = '';
-          this.count += 1;
-        })
-        .catch((error) => {
-          this.errors.push(error);
-        });
-    },
-    deleteBucketlist(url) {
-      axios({
-        method: 'delete',
-        url,
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-      })
-        .then(() => {
-          const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
-          this.bucketlists.splice(index, 1);
-          this.count -= 1;
-        })
-        .catch((error) => {
-          this.errors.push(error);
-        });
+      }
     },
     logout() {
       window.localStorage.removeItem('token');

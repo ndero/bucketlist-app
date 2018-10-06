@@ -4,11 +4,17 @@ import Bucketlists from '@/components/Bucketlists';
 
 jest.mock('axios', () => ({
   get: jest.fn(() => Promise.resolve({
-    bucketlists: [], results: [],
+    data: {
+      count: 3,
+      results: [
+        { name: 'bucketlist one', user: 'one' },
+        { name: 'bucketlist two', user: 'one' },
+      ],
+    },
   })),
 }));
 
-describe(' Bucketlist vue', () => {
+describe(' Bucketlist tests', () => {
   let cmp;
 
   beforeEach(() => {
@@ -17,35 +23,29 @@ describe(' Bucketlist vue', () => {
     jest.clearAllMocks();
   });
 
-  it('should render correct contents', () => {
-    expect(cmp.vm.count).toBe(0);
-  });
-
   it('matches snapshot', () => {
     expect(cmp.vm.$el).toMatchSnapshot();
   });
 
-  it('should render appropriate text if no bucketlists', () => {
-    // const result = await cmp.trigger('keyup.enter');
-    // expect(result).toEqual({ name: 'One' });
-
-    // expect(axios.getBucketlists).toBeCalledWith('stuff');
-  });
-
-  it('should get bucketlists', () => {
-    expect(cmp.vm.page).toBe(1);
-  });
-
   it('gets bucketlists', async () => {
     const result = await cmp.vm.getBucketlists();
-    expect(result).toEqual({ bucketlists: [], results: [] });
+    expect(result).toEqual({
+      data: {
+        count: 3,
+        results: [
+          { name: 'bucketlist one', user: 'one' },
+          { name: 'bucketlist two', user: 'one' },
+        ],
+      },
+    });
+    expect(cmp.vm.count).toEqual(3);
   });
 
-  it('should delete a bucketlist', () => {
+  it('deletes a bucketlist', () => {
 
   });
 
-  it('should add a bucketlist', () => {
+  it('adds a bucketlist', () => {
 
   });
 });

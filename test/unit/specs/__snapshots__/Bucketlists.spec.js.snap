@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` Bucketlist vue matches snapshot 1`] = `
+exports[` Bucketlist tests matches snapshot 1`] = `
 <div>
   <ul>
     <li>
@@ -8,7 +8,7 @@ exports[` Bucketlist vue matches snapshot 1`] = `
     </li>
      
     <span>
-      0
+      3
     </span>
      
     <li>
@@ -21,7 +21,7 @@ exports[` Bucketlist vue matches snapshot 1`] = `
     />
      
     <li>
-      
+      one
     </li>
      
     <li>
@@ -34,8 +34,13 @@ exports[` Bucketlist vue matches snapshot 1`] = `
     type="text"
   />
    
-  <p>
-     You don't have any bucketlist yet. 
-  </p>
+  <ul>
+    <editbucketlist-stub
+      bucketlist="[object Object]"
+    />
+    <editbucketlist-stub
+      bucketlist="[object Object]"
+    />
+  </ul>
 </div>
 `;
