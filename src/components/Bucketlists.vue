@@ -1,0 +1,108 @@
+<template>
+  <div>
+    <ul>
+        <li> Bucketlist Icon </li>
+        <span>{{ count }}</span>
+        <li> bucketlist App </li>
+        <input placeholder="Search..." type="text">
+        <li>{{ user }}</li>
+        <li id="logout" v-on:click="logout"> Logout </li>
+    </ul>
+    <input
+      placeholder="Add a new bucketlist"
+      type='text'
+      v-model.trim="newBucketlist"
+      v-on:keyup.enter="addBucketlist"
+    >
+    <ul v-if="bucketlists.length">
+      <EditBucketlist
+        v-for="bucketlist in bucketlists"
+        :key="bucketlist.url"
+        :bucketlist="bucketlist"
+        v-on:delete="deleteBucketlist"
+      />
+    </ul>
+    <p v-else> You don't have any bucketlist yet. </p>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+import config from '../config';
+import EditBucketlist from './EditBucketlist';
+import Register from './Register';
+
+export default {
+  name: 'Bucketlists',
+  components: {
+    EditBucketlist,
+    Register,
+  },
+  beforeRouteEnter(to, from, next) {
+    if (!window.localStorage.getItem('token')) {
+      next({ name: 'Register' });
+    } else {
+      next();
+    }
+  },
+  data() {
+    return {
+      bucketlists: [],
+      newBucketlist: '',
+      user: '',
+      count: 0,
+      page: 1,
+    };
+  },
+  created() {
+    this.getBucketlists();
+  },
+  methods: {
+    async getBucketlists() {
+      const response = await axios.get(`http://127.0.0.1:8000/bucketlists/?page=${this.page}`,
+        { headers: config.headers });
+      this.bucketlists = response.data.results;
+      this.count = response.data.count;
+      this.user = response.data.results[0].user;
+      return response;
+    },
+    async addBucketlist() {
+      const data = { name: this.newBucketlist, items: [] };
+      const response = await axios.post('http://127.0.0.1:8000/bucketlists/',
+        data, { headers: config.headers });
+      this.bucketlists.unshift(response.data);
+      this.newBucketlist = '';
+      this.count += 1;
+      return response;
+    },
+    async deleteBucketlist(url) {
+      await axios.delete(url, { headers: config.headers });
+      const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
+      this.bucketlists.splice(index, 1);
+      this.count -= 1;
+    },
+    logout() {
+      window.localStorage.removeItem('token');
+      this.$router.replace({ name: 'Register' });
+    },
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>

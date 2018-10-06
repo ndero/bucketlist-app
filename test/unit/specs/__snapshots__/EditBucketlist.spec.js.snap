@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditBucketlist tests matches snapshot 1`] = `
+<div>
+  <li>
+    <input
+      type="checkbox"
+    />
+     
+    <!---->
+     
+    <span>
+      
+      name
+    
+    </span>
+     
+    <button>
+      Edit
+    </button>
+     
+    <button>
+      Delete
+    </button>
+     
+    <!---->
+  </li>
+</div>
+`;

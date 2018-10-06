@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/ndero/vue-frontend/badge.svg?branch=develop)](https://coveralls.io/github/ndero/vue-frontend?branch=master)  [![Build Status](https://travis-ci.com/ndero/vue-frontend.svg?branch=master)](https://travis-ci.com/ndero/vue-frontend)
 # vue-frontend
 
 > A frontend to consume bucketlist API
