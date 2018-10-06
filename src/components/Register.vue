@@ -28,6 +28,7 @@
           placeholder="Your password"
           type="password"
           v-model.trim.lazy="password"
+          id="password"
         >
       </label>
       <label v-show="signUp">
@@ -59,47 +60,30 @@ export default {
       confirmPassword: '',
       formErrors: '',
       signUp: true,
+      errors: [],
     };
   },
   methods: {
     toggleSignUp() {
       this.signUp = !this.signUp;
     },
-    loginUser() {
-      axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/api-token-auth/',
-        datatype: 'json',
-        data: {
-          username: this.email,
-          password: this.password,
-        },
-      })
-        .then((response) => {
-          window.localStorage.setItem('token', response.data.token);
-          this.$router.replace({ name: 'Bucketlist' });
-        })
-        .catch((error) => {
-          this.errors.push(error);
-        });
+    async loginUser() {
+      let response;
+      try {
+        const data = { username: this.email, password: this.password };
+        response = await axios.post('http://127.0.0.1:8000/api-token-auth/', data);
+        window.localStorage.setItem('token', response.data.token);
+        this.$router.replace({ name: 'Bucketlist' });
+      } catch (error) {
+        this.errors.push(error);
+      }
+      return response;
     },
-    registerUser() {
+    async registerUser() {
       if (this.password === this.confirmPassword) {
-        axios({
-          method: 'post',
-          url: 'http://127.0.0.1:8000/register/',
-          datatype: 'json',
-          data: {
-            email: this.email,
-            password: this.password,
-          },
-        })
-          .then(() => {
-            this.loginUser();
-          })
-          .catch((error) => {
-            this.formErrors = error;
-          });
+        const data = { email: this.email, password: this.password };
+        await axios.post('http://127.0.0.1:8000/register/', data);
+        this.loginUser();
       } else {
         this.formErrors = "passwords don't match";
       }

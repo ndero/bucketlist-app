@@ -19,6 +19,7 @@
 
 <script>
 import axios from 'axios';
+import config from '../config';
 
 export default {
   props: {
@@ -37,40 +38,16 @@ export default {
     toggleEdit() {
       this.allowEdit = !this.allowEdit;
     },
-    editItem() {
-      axios({
-        method: 'patch',
-        url: this.item.url,
-        datatype: 'json',
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-        data: {
-          name: this.newName,
-        },
-      })
-        .then(() => {
-          this.item.name = this.newName;
-          this.toggleEdit();
-        });
+    async editItem() {
+      const data = { name: this.newName };
+      await axios.patch(this.item.url, data, { headers: config.headers });
+      this.item.name = this.newName;
+      this.toggleEdit();
     },
-    toggleItemDone() {
-      axios({
-        method: 'patch',
-        url: this.item.url,
-        datatype: 'json',
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-        data: {
-          done: !this.item.done,
-        },
-      })
-        .then(() => {
-          this.item.done = !this.item.done;
-        });
+    async toggleItemDone() {
+      const data = { done: !this.item.done };
+      await axios.patch(this.item.url, data, { headers: config.headers });
+      this.item.done = !this.item.done;
     },
   },
 };
