@@ -1,5 +1,4 @@
-import { mount, shallowMount } from '@vue/test-utils';
-import axios from 'axios';
+import { shallowMount } from '@vue/test-utils';
 import Bucketlists from '@/components/Bucketlists';
 
 jest.mock('axios', () => ({
@@ -12,6 +11,18 @@ jest.mock('axios', () => ({
       ],
     },
   })),
+  post: jest.fn(() => Promise.resolve({
+    data: {
+      url: 'http://127.0.0.1:8000/bucketlists/1/',
+      pk: 1,
+      name: 'new bucketlist',
+      done: false,
+      items_url: 'http://127.0.0.1:8000/bucketlists/320/items/',
+      items: [],
+      user: 'john@mail.com',
+    },
+  })),
+  delete: jest.fn(),
 }));
 
 describe(' Bucketlist tests', () => {
@@ -41,11 +52,23 @@ describe(' Bucketlist tests', () => {
     expect(cmp.vm.count).toEqual(3);
   });
 
-  it('deletes a bucketlist', () => {
-
+  it('adds a bucketlist', async () => {
+    const result = await cmp.vm.addBucketlist();
+    expect(result).toEqual({
+      data: {
+        url: 'http://127.0.0.1:8000/bucketlists/1/',
+        pk: 1,
+        name: 'new bucketlist',
+        done: false,
+        items_url: 'http://127.0.0.1:8000/bucketlists/320/items/',
+        items: [],
+        user: 'john@mail.com',
+      },
+    });
   });
 
-  it('adds a bucketlist', () => {
-
+  it('deletes a bucketlist', async () => {
+    await cmp.vm.deleteBucketlist('http://127.0.0.1:8000/bucketlists/1/');
+    expect(cmp.vm.count).toEqual(2);
   });
 });

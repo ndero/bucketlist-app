@@ -73,14 +73,14 @@ export default {
         this.count = response.data.count;
         this.user = response.data.results[0].user;
       } catch (error) {
-        this.errors.puch(error);
+        this.errors.push(error);
       }
       return response;
     },
     async addBucketlist() {
       let response;
       try {
-        response = axios.post('http://127.0.0.1:8000/bucketlists/', {
+        response = await axios.post('http://127.0.0.1:8000/bucketlists/', {
           headers: {
             Authorization: `Token ${window.localStorage.getItem('token')}`,
             'content-type': 'application/json',
