@@ -28,6 +28,7 @@
 
 <script>
 import axios from 'axios';
+import config from '../config';
 import EditBucketlist from './EditBucketlist';
 import Register from './Register';
 
@@ -61,14 +62,8 @@ export default {
     async getBucketlists() {
       let response;
       try {
-        response = await axios.get(
-          `http://127.0.0.1:8000/bucketlists/?page=${this.page}`, {
-            datatype: 'json',
-            headers: {
-              Authorization: `Token ${window.localStorage.getItem('token')}`,
-              'content-Type': 'application/json',
-            },
-          });
+        response = await axios.get(`http://127.0.0.1:8000/bucketlists/?page=${this.page}`,
+          { headers: config.headers });
         this.bucketlists = response.data.results;
         this.count = response.data.count;
         this.user = response.data.results[0].user;
@@ -79,17 +74,10 @@ export default {
     },
     async addBucketlist() {
       let response;
+      const data = { name: this.newBucketlist, items: [] };
       try {
-        response = await axios.post('http://127.0.0.1:8000/bucketlists/', {
-          headers: {
-            Authorization: `Token ${window.localStorage.getItem('token')}`,
-            'content-type': 'application/json',
-          },
-          data: {
-            name: this.newBucketlist,
-            items: [],
-          },
-        });
+        response = await axios.post('http://127.0.0.1:8000/bucketlists/',
+          data, { headers: config.headers });
         this.bucketlists.unshift(response.data);
         this.newBucketlist = '';
         this.count += 1;
@@ -100,12 +88,7 @@ export default {
     },
     async deleteBucketlist(url) {
       try {
-        await axios.delete(url, {
-          headers: {
-            Authorization: `Token ${window.localStorage.getItem('token')}`,
-            'content-Type': 'application/json',
-          },
-        });
+        await axios.delete(url, { headers: config.headers });
         const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
         this.bucketlists.splice(index, 1);
         this.count -= 1;

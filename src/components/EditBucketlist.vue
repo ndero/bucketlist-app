@@ -43,6 +43,7 @@
 
 <script>
 import axios from 'axios';
+import config from '../config';
 import Item from './Item';
 
 export default {
@@ -60,7 +61,7 @@ export default {
       allowEdit: false,
       showItems: false,
       newName: this.bucketlist.name,
-      items: '',
+      items: [],
       newItem: '',
     };
   },
@@ -71,85 +72,34 @@ export default {
     toggleShowItems() {
       this.showItems = !this.showItems;
     },
-    editBucketlist() {
-      axios({
-        method: 'patch',
-        url: this.bucketlist.url,
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-        data: {
-          name: this.newName,
-        },
-      })
-        .then(() => {
-          this.bucketlist.name = this.newName;
-          this.toggleEdit();
-        });
+    async editBucketlist() {
+      const data = { name: this.newName };
+      await axios.patch(this.bucketlist.url, data, { headers: config.headers });
+      this.bucketlist.name = this.newName;
+      this.toggleEdit();
     },
-    toggleBucketlistDone() {
-      axios({
-        method: 'patch',
-        url: this.bucketlist.url,
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-        data: {
-          done: !this.bucketlist.done,
-        },
-      })
-        .then(() => {
-          this.bucketlist.done = !this.bucketlist.done;
-        });
+    async toggleBucketlistDone() {
+      const data = { done: !this.bucketlist.done };
+      await axios.patch(this.bucketlist.url, data, { headers: config.headers });
+      this.bucketlist.done = !this.bucketlist.done;
     },
-    getItems() {
-      axios({
-        method: 'get',
-        url: this.bucketlist.items_url,
-        datatype: 'json',
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          this.items = response.data.results;
-        });
+    async getItems() {
+      const response = await axios.get(this.bucketlist.items_url, { headers: config.headers });
+      this.items = response.data.results;
+      return response;
     },
-    addItem() {
-      axios({
-        method: 'post',
-        url: this.bucketlist.items_url,
-        datatype: 'json',
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-        data: {
-          name: this.newItem,
-        },
-      })
-        .then((response) => {
-          this.items.unshift(response.data);
-          this.newItem = '';
-        });
+    async addItem() {
+      const data = { name: this.newItem };
+      const response = await axios.post(this.bucketlist.items_url,
+        data, { headers: config.headers });
+      this.items.unshift(response.data);
+      this.newItem = '';
+      return response;
     },
-    deleteItem(url) {
-      axios({
-        method: 'delete',
-        url,
-        datatype: 'json',
-        headers: {
-          Authorization: `Token ${window.localStorage.getItem('token')}`,
-          'content-Type': 'application/json',
-        },
-      })
-        .then(() => {
-          const index = this.items.map(item => item.url).indexOf(url);
-          this.items.splice(index, 1);
-        });
+    async deleteItem(url) {
+      await axios.delete(url, { headers: config.headers });
+      const index = this.items.map(item => item.url).indexOf(url);
+      this.items.splice(index, 1);
     },
   },
 };
