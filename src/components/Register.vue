@@ -92,4 +92,4 @@ export default {
 };
 </script>
 
-<style scoped src='../css/Register.css'></style>
+<style scoped lang='scss' src='../scss/Register.scss'></style>
