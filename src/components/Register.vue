@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id='register'>
     <ul>
-      <li> Bucketlist Image </li>
+      <img src="../assets/bucketlist.jpg" alt="logo" Bucketlist Image>
       <li> Bucketlist App </li>
       <a href="/register" v-show="signUp" v-on:click.prevent="toggleSignUp">Login</a>
       <a href="/register" v-show="!signUp" v-on:click.prevent="toggleSignUp">Register</a>
@@ -91,3 +91,5 @@ export default {
   },
 };
 </script>
+
+<style scoped src='../css/Register.css'></style>

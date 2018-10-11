@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-        <li> Bucketlist Icon </li>
+        <img src="../assets/bucketlist.jpg">
         <span>{{ count }}</span>
         <li> bucketlist App </li>
         <input placeholder="Search..." type="text">
@@ -57,6 +57,11 @@ export default {
   created() {
     this.getBucketlists();
   },
+  updated() {
+    if (this.bucketlists.length < 1 && this.count > 1) {
+      this.getBucketlists();
+    }
+  },
   methods: {
     async getBucketlists() {
       const response = await axios.get(`http://127.0.0.1:8000/bucketlists/?page=${this.page}`,
@@ -71,6 +76,7 @@ export default {
       const response = await axios.post('http://127.0.0.1:8000/bucketlists/',
         data, { headers: config.headers });
       this.bucketlists.unshift(response.data);
+      this.bucketlists = this.bucketlists.slice(0, 10);
       this.newBucketlist = '';
       this.count += 1;
       return response;

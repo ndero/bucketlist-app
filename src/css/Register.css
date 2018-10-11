@@ -1,0 +1,6 @@
+#register {
+  background: url(../assets/image.jpg);
+  background-size: cover;
+  min-height: 40em;
+  padding: 0;
+}
