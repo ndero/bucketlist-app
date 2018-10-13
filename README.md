@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/ndero/bucketlist-frontend/badge.svg?branch=master)](https://coveralls.io/github/ndero/vue-frontend?branch=master)  [![Build Status](https://travis-ci.com/ndero/bucketlist-frontend.svg?branch=master)](https://travis-ci.com/ndero/vue-frontend)
+[![Coverage Status](https://coveralls.io/repos/github/ndero/bucketlist-frontend/badge.svg?branch=master)](https://coveralls.io/github/ndero/vue-frontend?branch=master)  [![Build Status](https://travis-ci.org/ndero/bucketlist-frontend.svg?branch=master)](https://travis-ci.org/ndero/bucketlist-frontend)
 <h1 align="center">Vue Bucketlist front end</h1>
 <details>
 <summary>
