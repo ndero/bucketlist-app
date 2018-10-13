@@ -1,0 +1,102 @@
+#register {
+  $screen-width: 900px;
+  background: url(../assets/image.jpg);
+  background-size: cover;
+  min-height: 100vh;
+  #register-foreground {
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+    background: rgba(0, 0, 0, .8);
+  }
+  .navbar {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    color: #fff;
+    @media screen and (max-width: $screen-width) {
+      flex-flow: column;
+    }
+    img {
+      height: 5em;
+      width: auto;
+      @media screen and (max-width: $screen-width) {
+        height: 4em;
+        padding-top: 2em;
+      }
+    }
+    h3 {
+      @media screen and (max-width: $screen-width) {
+        display: none;
+      }
+    }
+  }
+  .register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media only screen and (max-width: $screen-width) {
+      flex-flow: column;
+    }
+    .signup-content {
+      color:  rgba(245, 242, 247, 0.705);
+      padding-left: 4em;
+      @media screen and (max-width: $screen-width) {
+        padding: 0.5em;
+      }
+      h2 {
+        color: #fff;
+      }
+    }
+    form {
+      margin: 2em 10em;
+      display: flex;
+      padding: 2em;
+      background: rgba(0, 0, 0, .5);
+      flex-direction: column;
+      border-radius: .8em;
+      color: #fff;
+      .login-title {
+        font-size: 1.8em;
+        font-weight: 800;
+        margin: 0 1.2em 0em 0em;
+      }
+      label {
+        text-align: left;
+        padding: .5em 2em;
+        font-weight: 500;
+      }
+      .login-link {
+        text-align: left;
+        padding-left: 2.2em;
+      }
+      input {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #fff;
+        padding: 1em;
+        display: block;
+        border-radius: .3em;
+        color: #fff;
+        font-size: .8em;
+      }
+      .login-button {
+        background: rgb(51, 122, 183);
+        height: 3em;
+        margin: 3em 0;
+        border-radius: 3em;
+        border: none;
+        color: #fff;
+        font-weight: 700;
+      }
+    }
+  }
+  a {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    &:hover {
+      color: green;
+    }
+  }
+}

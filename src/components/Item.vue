@@ -1,5 +1,5 @@
 <template>
-    <li>
+    <li id='items'>
       <input
         type="checkbox"
         :checked="item.done"
@@ -12,8 +12,8 @@
         v-on:keyup.enter="editItem"
         type="text"
       >
-      <button v-on:click="toggleEdit">Edit</button>
-      <button v-on:click="$emit('delete', item.url)">Delete</button>
+      <img src="../assets/edit.png" v-on:click="toggleEdit"/>
+      <img src="../assets/delete.png" v-on:click="$emit('delete', item.url)"/>
     </li>
 </template>
 
@@ -52,3 +52,5 @@ export default {
   },
 };
 </script>
+
+<style scoped lang='scss' src='../scss/Item.scss'></style>
