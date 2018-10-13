@@ -1,28 +1,30 @@
 <template>
-  <div>
-    <ul>
+  <div id="bucketlists">
+    <ul class="navbar">
         <img src="../assets/bucketlist.jpg">
         <span>{{ count }}</span>
-        <li> bucketlist App </li>
         <input placeholder="Search..." type="text">
-        <li>{{ user }}</li>
+        <li id="email">{{ user }}</li>
         <li id="logout" v-on:click="logout"> Logout </li>
     </ul>
     <input
+      class="add-bucketlist"
       placeholder="Add a new bucketlist"
       type='text'
       v-model.trim="newBucketlist"
       v-on:keyup.enter="addBucketlist"
     >
-    <ul v-if="bucketlists.length">
-      <EditBucketlist
-        v-for="bucketlist in bucketlists"
-        :key="bucketlist.url"
-        :bucketlist="bucketlist"
-        v-on:delete="deleteBucketlist"
-      />
-    </ul>
-    <p v-else> You don't have any bucketlist yet. </p>
+    <div class="bucketlist-view">
+      <ul v-if="bucketlists.length">
+        <EditBucketlist
+          v-for="bucketlist in bucketlists"
+          :key="bucketlist.url"
+          :bucketlist="bucketlist"
+          v-on:delete="deleteBucketlist"
+        />
+      </ul>
+      <p v-else>You don't have any bucketlist yet.</p>
+    </div>
   </div>
 </template>
 
@@ -57,8 +59,8 @@ export default {
   created() {
     this.getBucketlists();
   },
-  updated() {
-    if (this.bucketlists.length < 1 && this.count > 1) {
+  beforeUpdate() {
+    if (this.bucketlists.length < 1 && this.count > 0) {
       this.getBucketlists();
     }
   },
@@ -96,19 +98,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style scoped lang='scss' src='../scss/Bucketlists.scss'></style>
