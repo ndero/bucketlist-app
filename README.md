@@ -1,28 +1,31 @@
 [![Coverage Status](https://coveralls.io/repos/github/ndero/vue-frontend/badge.svg?branch=develop)](https://coveralls.io/github/ndero/vue-frontend?branch=master)  [![Build Status](https://travis-ci.com/ndero/vue-frontend.svg?branch=master)](https://travis-ci.com/ndero/vue-frontend)
-# vue-frontend
+<h1 align="center">Vue Bucketlist front end</h1>
+<summary>
+A frontend to consume the bucketlist API.
+</summary>
+<ul>
+<li> Add bucketlists. </li>
+<li> Add items to bucketlists. </li>
+<li> Inline editing of items. </li>
+<li> Delete items. </li>
+<li> Mark items as done. </li>
+<li> show/hide items. </li>
+<li> toggle edit and delete buttons. </li>
+</ul>
+</details><br>
 
-> A frontend to consume bucketlist API
+### How it looks like
+![Screenshot of login page](/static/images/registration.png)
 
-## Build Setup
-
+### Setting up locally
 ``` bash
-# install dependencies
-npm install
+# clone the repo
+git clone https://github.com/ndero/bucketlist-frontend.git
 
-# serve with hot reload at localhost:8080
-npm run dev
+npm run dev  # serve with hot reload at localhost:8080
 
-# build for production with minification
-npm run build
+npm run tests  # run tests
 
-# build for production and view the bundle analyzer report
-npm run build --report
+npm run build  # build for production with minification
 
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
