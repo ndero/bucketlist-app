@@ -1,7 +1,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/ndero/vue-frontend/badge.svg?branch=develop)](https://coveralls.io/github/ndero/vue-frontend?branch=master)  [![Build Status](https://travis-ci.com/ndero/vue-frontend.svg?branch=master)](https://travis-ci.com/ndero/vue-frontend)
 <h1 align="center">Vue Bucketlist front end</h1>
+<details>
 <summary>
-A frontend to consume the bucketlist API.
+A vue frontend to consume the bucketlist API.
 </summary>
 <ul>
 <li> Add bucketlists. </li>
@@ -9,12 +10,12 @@ A frontend to consume the bucketlist API.
 <li> Inline editing of items. </li>
 <li> Delete items. </li>
 <li> Mark items as done. </li>
-<li> show/hide items. </li>
-<li> toggle edit and delete buttons. </li>
+<li> Show/hide items. </li>
+<li> Toggle edit and delete buttons. </li>
 </ul>
 </details><br>
 
-### How it looks like
+### Snapshot
 ![Screenshot of login page](/static/images/registration.png)
 
 ### Setting up locally
@@ -22,10 +23,13 @@ A frontend to consume the bucketlist API.
 # clone the repo
 git clone https://github.com/ndero/bucketlist-frontend.git
 
-npm run dev  # serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8080
+npm run dev
 
-npm run tests  # run tests
+# run tests
+npm run tests
 
-npm run build  # build for production with minification
+# build for production with minification
+npm run build
 
 ```
