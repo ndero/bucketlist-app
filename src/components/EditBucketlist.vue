@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div id="edit-bucketlist">
     <li>
+      <div>
       <input
         type="checkbox"
         v-on:click.prevent="toggleBucketlistDone"
@@ -19,10 +20,12 @@
       >
         {{ bucketlist.name }}
       </span>
-      <button v-on:click="toggleEdit">Edit</button>
-      <button v-on:click="$emit('delete', bucketlist.url)">Delete</button>
-      <div v-if="showItems">
+      <img src="../assets/edit.png" v-on:click="toggleEdit"/>
+      <img src="../assets/delete.png" v-on:click="$emit('delete', bucketlist.url)"/>
+      </div>
+      <div class="items-view" v-if="showItems">
         <input
+          id="add-item"
           placeholder="Add an item"
           type="text"
           v-model.trim="newItem"
@@ -104,3 +107,5 @@ export default {
   },
 };
 </script>
+
+<style scoped lang='scss' src='../scss/EditBucketlist.scss'></style>

@@ -1,5 +1,5 @@
 #bucketlists {
-  $screen-width: 600px;
+  $screen-width: 850px;
   color: #fff;
   display: flex;
   flex-flow: row wrap;
@@ -38,7 +38,7 @@
   }
   .add-bucketlist {
     display: flex;
-    flex: 0 1 18%;
+    flex: 0 1 10%;
     margin-left: 8em;
     margin-right: 1em;
   }
@@ -46,7 +46,7 @@
     display: flex;
     text-align: left;
     flex: 0 1 70%;
-    justify-content: center;
+    justify-content: flex-start;
     p {
       padding: 4em;
     }
