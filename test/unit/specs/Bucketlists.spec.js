@@ -5,20 +5,19 @@ import router from '@/router';
 jest.mock('axios', () => ({
   get: jest.fn(() => Promise.resolve({
     data: {
-      count: 3,
+      count: 11,
       results: [
         { name: 'bucketlist one', user: 'one' },
-        { name: 'bucketlist two', user: 'one' },
       ],
     },
   })),
   post: jest.fn(() => Promise.resolve({
     data: {
-      url: 'http://127.0.0.1:8000/bucketlists/1/',
-      pk: 1,
+      url: 'http://127.0.0.1:8000/bucketlists/12/',
+      pk: 12,
       name: 'new bucketlist',
       done: false,
-      items_url: 'http://127.0.0.1:8000/bucketlists/320/items/',
+      items_url: 'http://127.0.0.1:8000/bucketlists/12/items/',
       items: [],
       user: 'john@mail.com',
     },
@@ -39,35 +38,35 @@ describe(' Bucketlist tests', () => {
     const result = await cmp.vm.getBucketlists();
     expect(result).toEqual({
       data: {
-        count: 3,
+        count: 11,
         results: [
           { name: 'bucketlist one', user: 'one' },
-          { name: 'bucketlist two', user: 'one' },
         ],
       },
     });
-    expect(cmp.vm.count).toEqual(3);
+    expect(cmp.vm.count).toEqual(11);
   });
   it('adds a bucketlist', async () => {
     const result = await cmp.vm.addBucketlist();
     expect(result).toEqual({
       data: {
-        url: 'http://127.0.0.1:8000/bucketlists/1/',
-        pk: 1,
+        url: 'http://127.0.0.1:8000/bucketlists/12/',
+        pk: 12,
         name: 'new bucketlist',
         done: false,
-        items_url: 'http://127.0.0.1:8000/bucketlists/320/items/',
+        items_url: 'http://127.0.0.1:8000/bucketlists/12/items/',
         items: [],
         user: 'john@mail.com',
       },
     });
+    expect(cmp.vm.count).toEqual(12);
   });
   it('deletes a bucketlist', async () => {
-    await cmp.vm.deleteBucketlist('http://127.0.0.1:8000/bucketlists/1/');
-    expect(cmp.vm.count).toEqual(2);
+    await cmp.vm.deleteBucketlist('http://127.0.0.1:8000/bucketlists/12/');
+    expect(cmp.vm.count).toEqual(11);
   });
   it('log the user out', () => {
-    cmp.find('li#logout').trigger('click');
+    cmp.find('#logout').trigger('click');
     expect(cmp.vm.$router.history.current.name).toEqual('Register');
   });
 });
