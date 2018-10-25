@@ -19,17 +19,24 @@ A vue frontend to consume the bucketlist API.
 ![Screenshot of login page](/static/images/registration.png)
 
 ### Setting up locally
-``` bash
-# clone the repo
-git clone https://github.com/ndero/bucketlist-frontend.git
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# run tests
-npm run tests
-
-# build for production with minification
-npm run build
-
+##### Clone the repo and install node modules
 ```
+git clone https://github.com/ndero/bucketlist-frontend.git
+cd bucketlist-frontend
+npm install
+```
+##### Serve with hot reload at localhost:8080
+```
+npm run dev
+```
+##### Run tests
+```
+npm run tests
+```
+##### Build for production with minification
+```
+npm run build
+```
+
+### Setting up the API
+To setup the api to consume with this frontend follow the instructions on this [README](https://github.com/ndero/bucketlist-api).

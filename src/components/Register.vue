@@ -71,6 +71,7 @@
 
 <script>
 import axios from 'axios';
+import config from '../config';
 
 export default {
   data() {
@@ -91,7 +92,7 @@ export default {
       let response;
       try {
         const data = { username: this.email, password: this.password };
-        response = await axios.post('http://127.0.0.1:8000/api-token-auth/', data);
+        response = await axios.post(`${config.BASE_URL}/api-token-auth/`, data);
         window.localStorage.setItem('token', response.data.token);
         this.$router.replace({ name: 'Bucketlist' });
       } catch (error) {
@@ -102,7 +103,7 @@ export default {
     async registerUser() {
       if (this.password === this.confirmPassword) {
         const data = { email: this.email, password: this.password };
-        await axios.post('http://127.0.0.1:8000/register/', data);
+        await axios.post(`${config.BASE_URL}/register/`, data);
         this.loginUser();
       } else {
         this.formErrors = "passwords don't match";

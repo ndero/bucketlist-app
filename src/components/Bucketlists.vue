@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     async getBucketlists() {
-      const response = await axios.get(`http://127.0.0.1:8000/bucketlists/?page=${this.page}`,
+      const response = await axios.get(`${config.BASE_URL}/bucketlists/?page=${this.page}`,
         { headers: config.headers });
       this.bucketlists = response.data.results;
       this.count = response.data.count;
@@ -75,7 +75,7 @@ export default {
     },
     async addBucketlist() {
       const data = { name: this.newBucketlist, items: [] };
-      const response = await axios.post('http://127.0.0.1:8000/bucketlists/',
+      const response = await axios.post(`${config.BASE_URL}/bucketlists/`,
         data, { headers: config.headers });
       this.bucketlists.unshift(response.data);
       this.bucketlists = this.bucketlists.slice(0, 10);
