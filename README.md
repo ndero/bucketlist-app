@@ -31,7 +31,7 @@ npm run dev
 ```
 ##### Run tests
 ```
-npm run tests
+npm run test
 ```
 ##### Build for production with minification
 ```
