@@ -55,6 +55,7 @@
       background: rgba(0, 0, 0, .5);
       flex-direction: column;
       border-radius: .8em;
+      max-width: 17em;
       color: #fff;
       .login-title {
         font-size: 1.8em;
@@ -88,6 +89,10 @@
         border: none;
         color: #fff;
         font-weight: 700;
+      }
+      .form-errors {
+        color: red;
+        font-size: 0.9em;
       }
     }
   }

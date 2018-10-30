@@ -40,13 +40,6 @@ export default {
     EditBucketlist,
     Register,
   },
-  beforeRouteEnter(to, from, next) {
-    if (!window.localStorage.getItem('token')) {
-      next({ name: 'Register' });
-    } else {
-      next();
-    }
-  },
   data() {
     return {
       bucketlists: [],

@@ -33,6 +33,6 @@ describe('Register tests', () => {
     cmp.vm.password = 'pass123';
     cmp.vm.confirmPassword = '123pass';
     await cmp.vm.registerUser();
-    expect(cmp.vm.formErrors).toEqual("passwords don't match");
+    expect(cmp.vm.invalidConfirmPassword()).toBeTruthy();
   });
 });
