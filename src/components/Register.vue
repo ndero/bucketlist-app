@@ -31,18 +31,32 @@
             <input
               placeholder="Your password"
               type="password"
-              v-model.trim.lazy="password"
+              v-model.trim="password"
               id="password"
             >
+            <span
+              class="form-errors"
+              v-show='password && invalidPassword()'>
+              password must be at least 8 characters long
+            </span>
           </label>
           <label v-show="signUp">
             confirm password
             <input
               placeholder="Confirm password"
               type="password"
-              v-model.trim.lazy="confirmPassword"
+              v-model.trim="confirmPassword"
             >
+            <span
+              class="form-errors"
+              v-show='confirmPassword && invalidConfirmPassword()'
+            >
+              passwords don't match
+            </span>
           </label>
+          <span class="form-errors" v-show='errors && !signUp'>
+            Invalid login credentials.
+          </span>
           <span class="login-link" v-show="signUp">
             <p>Already have an account?</p>
             <a v-on:click.prevent="toggleSignUp" href="/register">Sign in</a>
@@ -79,14 +93,19 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
-      formErrors: '',
       signUp: true,
-      errors: [],
+      errors: '',
     };
   },
   methods: {
     toggleSignUp() {
       this.signUp = !this.signUp;
+    },
+    invalidPassword() {
+      return this.password.length < 7;
+    },
+    invalidConfirmPassword() {
+      return this.password !== this.confirmPassword;
     },
     async loginUser() {
       let response;
@@ -96,18 +115,14 @@ export default {
         window.localStorage.setItem('token', response.data.token);
         this.$router.replace({ name: 'Bucketlist' });
       } catch (error) {
-        this.errors.push(error);
+        this.errors = error;
       }
       return response;
     },
     async registerUser() {
-      if (this.password === this.confirmPassword) {
-        const data = { email: this.email, password: this.password };
-        await axios.post(`${config.BASE_URL}/register/`, data);
-        this.loginUser();
-      } else {
-        this.formErrors = "passwords don't match";
-      }
+      const data = { email: this.email, password: this.password };
+      await axios.post(`${config.BASE_URL}/register/`, data);
+      this.loginUser();
     },
   },
 };
