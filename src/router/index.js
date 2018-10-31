@@ -20,16 +20,22 @@ const router = new Router({
       component: Bucketlists,
       meta: { requiresAuth: true },
     },
+    {
+      path: '*',
+      redirect: { name: 'Register' },
+    },
   ],
 });
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (window.localStorage.getItem('token')) {
-      next();
-    } else {
+    if (window.localStorage.getItem('token') == null) {
       next({ name: 'Register' });
+    } else {
+      next();
     }
+  } else if (window.localStorage.getItem('token') != null) {
+    next({ name: 'Bucketlist' });
   } else {
     next();
   }
