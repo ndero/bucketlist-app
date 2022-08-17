@@ -5,7 +5,7 @@
         <span>{{ count }}</span>
         <input placeholder="Search..." type="text">
         <li id="email">{{ user }}</li>
-        <li id="logout" v-on:click="logout"> Logout </li>
+        <li id="logout" v-on:click="logout">Logout</li>
     </ul>
     <input
       class="add-bucketlist"
