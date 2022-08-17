@@ -1,25 +1,25 @@
 <template>
-    <li id='items'>
-      <input
-        type="checkbox"
-        :checked="item.done"
-        v-on:click.prevent="toggleItemDone"
-      >
-      <span v-if="!allowEdit">{{ item.name }}</span>
-      <input
-        v-if="allowEdit"
-        v-model="newName"
-        v-on:keyup.enter="editItem"
-        type="text"
-      >
-      <img src="../assets/edit.png" v-on:click="toggleEdit"/>
-      <img src="../assets/delete.png" v-on:click="$emit('delete', item.url)"/>
-    </li>
+  <li id="items">
+    <input
+      type="checkbox"
+      :checked="item.done"
+      v-on:click.prevent="toggleItemDone"
+    />
+    <span v-if="!allowEdit">{{ item.name }}</span>
+    <input
+      v-if="allowEdit"
+      v-model="newName"
+      v-on:keyup.enter="editItem"
+      type="text"
+    />
+    <img src="../assets/edit.png" v-on:click="toggleEdit" />
+    <img src="../assets/delete.png" v-on:click="$emit('delete', item.url)" />
+  </li>
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../config';
+import axios from "axios";
+import config from "../config";
 
 export default {
   props: {
@@ -53,7 +53,7 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 #items {
   input {
     background: transparent;

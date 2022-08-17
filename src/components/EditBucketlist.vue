@@ -2,26 +2,29 @@
   <div id="edit-bucketlist">
     <li>
       <div>
-      <input
-        type="checkbox"
-        v-on:click.prevent="toggleBucketlistDone"
-        :checked="bucketlist.done"
-      >
-      <input
-        v-if="allowEdit"
-        type="text"
-        v-model="newName"
-        v-on:keyup.enter="editBucketlist"
-      >
-      <span
-        v-if="!allowEdit"
-        v-on:click="toggleShowItems"
-        v-on:click.once="getItems"
-      >
-        {{ bucketlist.name }}
-      </span>
-      <img src="../assets/edit.png" v-on:click="toggleEdit"/>
-      <img src="../assets/delete.png" v-on:click="$emit('delete', bucketlist.url)"/>
+        <input
+          type="checkbox"
+          v-on:click.prevent="toggleBucketlistDone"
+          :checked="bucketlist.done"
+        />
+        <input
+          v-if="allowEdit"
+          type="text"
+          v-model="newName"
+          v-on:keyup.enter="editBucketlist"
+        />
+        <span
+          v-if="!allowEdit"
+          v-on:click="toggleShowItems"
+          v-on:click.once="getItems"
+        >
+          {{ bucketlist.name }}
+        </span>
+        <img src="../assets/edit.png" v-on:click="toggleEdit" />
+        <img
+          src="../assets/delete.png"
+          v-on:click="$emit('delete', bucketlist.url)"
+        />
       </div>
       <div class="items-view" v-if="showItems">
         <input
@@ -30,7 +33,7 @@
           type="text"
           v-model.trim="newItem"
           v-on:keyup.enter="addItem"
-        >
+        />
         <ul v-if="items.length">
           <Item
             v-for="item in items"
@@ -45,9 +48,9 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../config';
-import Item from './Item.vue';
+import axios from "axios";
+import config from "../config";
+import Item from "./Item.vue";
 
 export default {
   components: {
@@ -65,7 +68,7 @@ export default {
       showItems: false,
       newName: this.bucketlist.name,
       items: [],
-      newItem: '',
+      newItem: "",
     };
   },
   methods: {
@@ -87,28 +90,31 @@ export default {
       this.bucketlist.done = !this.bucketlist.done;
     },
     async getItems() {
-      const response = await axios.get(this.bucketlist.items_url, { headers: config.headers });
+      const response = await axios.get(this.bucketlist.items_url, {
+        headers: config.headers,
+      });
       this.items = response.data.results;
       return response;
     },
     async addItem() {
       const data = { name: this.newItem };
-      const response = await axios.post(this.bucketlist.items_url,
-        data, { headers: config.headers });
+      const response = await axios.post(this.bucketlist.items_url, data, {
+        headers: config.headers,
+      });
       this.items.unshift(response.data);
-      this.newItem = '';
+      this.newItem = "";
       return response;
     },
     async deleteItem(url) {
       await axios.delete(url, { headers: config.headers });
-      const index = this.items.map(item => item.url).indexOf(url);
+      const index = this.items.map((item) => item.url).indexOf(url);
       this.items.splice(index, 1);
     },
   },
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 #edit-bucketlist {
   $screen-width: 850px;
   li {

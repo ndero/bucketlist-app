@@ -1,19 +1,19 @@
 <template>
   <div id="bucketlists">
     <ul class="navbar">
-        <img src="../assets/bucketlist.jpg">
-        <span>{{ count }}</span>
-        <input placeholder="Search..." type="text">
-        <li id="email">{{ user }}</li>
-        <li id="logout" v-on:click="logout">Logout</li>
+      <img src="../assets/bucketlist.jpg" />
+      <span>{{ count }}</span>
+      <input placeholder="Search..." type="text" />
+      <li id="email">{{ user }}</li>
+      <li id="logout" v-on:click="logout">Logout</li>
     </ul>
     <input
       class="add-bucketlist"
       placeholder="Add a new bucketlist"
-      type='text'
+      type="text"
       v-model.trim="newBucketlist"
       v-on:keyup.enter="addBucketlist"
-    >
+    />
     <div class="bucketlist-view">
       <ul v-if="bucketlists.length">
         <EditBucketlist
@@ -29,13 +29,13 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../config';
-import EditBucketlist from './EditBucketlist.vue';
-import Register from './Register.vue';
+import axios from "axios";
+import config from "../config";
+import EditBucketlist from "./EditBucketlist.vue";
+import Register from "./Register.vue";
 
 export default {
-  name: 'Bucketlists',
+  name: "Bucketlists",
   components: {
     EditBucketlist,
     Register,
@@ -43,8 +43,8 @@ export default {
   data() {
     return {
       bucketlists: [],
-      newBucketlist: '',
-      user: '',
+      newBucketlist: "",
+      user: "",
       count: 0,
       page: 1,
     };
@@ -59,8 +59,10 @@ export default {
   },
   methods: {
     async getBucketlists() {
-      const response = await axios.get(`${config.BASE_URL}/bucketlists/?page=${this.page}`,
-        { headers: config.headers });
+      const response = await axios.get(
+        `${config.BASE_URL}/bucketlists/?page=${this.page}`,
+        { headers: config.headers }
+      );
       this.bucketlists = response.data.results;
       this.count = response.data.count;
       this.user = response.data.results[0].user;
@@ -68,23 +70,28 @@ export default {
     },
     async addBucketlist() {
       const data = { name: this.newBucketlist, items: [] };
-      const response = await axios.post(`${config.BASE_URL}/bucketlists/`,
-        data, { headers: config.headers });
+      const response = await axios.post(
+        `${config.BASE_URL}/bucketlists/`,
+        data,
+        { headers: config.headers }
+      );
       this.bucketlists.unshift(response.data);
       this.bucketlists = this.bucketlists.slice(0, 10);
-      this.newBucketlist = '';
+      this.newBucketlist = "";
       this.count += 1;
       return response;
     },
     async deleteBucketlist(url) {
       await axios.delete(url, { headers: config.headers });
-      const index = this.bucketlists.map(bucketlist => bucketlist.url).indexOf(url);
+      const index = this.bucketlists
+        .map((bucketlist) => bucketlist.url)
+        .indexOf(url);
       this.bucketlists.splice(index, 1);
       this.count -= 1;
     },
     logout() {
-      window.localStorage.removeItem('token');
-      this.$router.replace({ name: 'Register' });
+      window.localStorage.removeItem("token");
+      this.$router.replace({ name: "Register" });
     },
   },
 };
@@ -110,7 +117,7 @@ export default {
     // padding-top: 1em;
     img {
       height: 3em;
-      padding-bottom: .5em;
+      padding-bottom: 0.5em;
     }
     #logout {
       padding: 0 2em;
@@ -118,7 +125,8 @@ export default {
     @media screen and (max-width: $screen-width) {
       flex-flow: column;
     }
-    #email, input {
+    #email,
+    input {
       @media screen and (max-width: $screen-width) {
         display: none;
       }
@@ -151,7 +159,7 @@ export default {
     border: none;
     border-bottom: 1px solid #fff;
     color: #fff;
-    padding: .5em;
+    padding: 0.5em;
   }
 }
 </style>

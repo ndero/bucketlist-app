@@ -1,18 +1,29 @@
 <template>
-  <div id='register'>
-    <div id='register-foreground'>
-      <ul class='navbar'>
-        <li><img src="../assets/bucketlist.jpg" alt="logo" Bucketlist Image></li>
-        <li><h1> Bucketlist App </h1></li>
-        <h3><a href="/register" v-show="!signUp" v-on:click.prevent="toggleSignUp">Register</a></h3>
-        <h3><a href="/register" v-show="signUp" v-on:click.prevent="toggleSignUp">Login</a></h3>
+  <div id="register">
+    <div id="register-foreground">
+      <ul class="navbar">
+        <li>
+          <img src="../assets/bucketlist.jpg" alt="logo" Bucketlist Image />
+        </li>
+        <li><h1>Bucketlist App</h1></li>
+        <h3>
+          <a href="/register" v-show="!signUp" v-on:click.prevent="toggleSignUp"
+            >Register</a
+          >
+        </h3>
+        <h3>
+          <a href="/register" v-show="signUp" v-on:click.prevent="toggleSignUp"
+            >Login</a
+          >
+        </h3>
       </ul>
-      <div class='register-page'>
-        <div v-show="signUp" class='signup-content'>
-          <h2> Do you have big Dreams?</h2>
+      <div class="register-page">
+        <div v-show="signUp" class="signup-content">
+          <h2>Do you have big Dreams?</h2>
           <h3>
-            Imagine if you could be Able to immortalise your dreams, keep track of them
-            and share with your friends. The bucketlist App does just that for you!
+            Imagine if you could be Able to immortalise your dreams, keep track
+            of them and share with your friends. The bucketlist App does just
+            that for you!
           </h3>
         </div>
         <form v-on:submit.prevent>
@@ -24,7 +35,7 @@
               placeholder="Your email"
               type="email"
               v-model.trim.lazy="email"
-            >
+            />
           </label>
           <label>
             Password
@@ -33,10 +44,8 @@
               type="password"
               v-model.trim="password"
               id="password"
-            >
-            <span
-              class="form-errors"
-              v-show='password && invalidPassword()'>
+            />
+            <span class="form-errors" v-show="password && invalidPassword()">
               password must be at least 8 characters long
             </span>
           </label>
@@ -46,15 +55,15 @@
               placeholder="Confirm password"
               type="password"
               v-model.trim="confirmPassword"
-            >
+            />
             <span
               class="form-errors"
-              v-show='confirmPassword && invalidConfirmPassword()'
+              v-show="confirmPassword && invalidConfirmPassword()"
             >
               passwords don't match
             </span>
           </label>
-          <span class="form-errors" v-show='errors && !signUp'>
+          <span class="form-errors" v-show="errors && !signUp">
             Invalid login credentials.
           </span>
           <span class="login-link" v-show="signUp">
@@ -62,7 +71,7 @@
             <a v-on:click.prevent="toggleSignUp" href="/register">Sign in</a>
           </span>
           <span class="login-link" v-show="!signUp">
-            <p> Don't have an account?</p>
+            <p>Don't have an account?</p>
             <a v-on:click.prevent="toggleSignUp" href="/register">Register</a>
           </span>
           <button
@@ -70,13 +79,17 @@
             v-show="signUp"
             type="submit"
             v-on:click="registerUser"
-          >Register</button>
+          >
+            Register
+          </button>
           <button
             class="login-button"
             v-show="!signUp"
             type="submit"
             v-on:click="loginUser"
-          >Login </button>
+          >
+            Login
+          </button>
         </form>
       </div>
     </div>
@@ -84,17 +97,17 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../config';
+import axios from "axios";
+import config from "../config";
 
 export default {
   data() {
     return {
-      email: '',
-      password: '',
-      confirmPassword: '',
+      email: "",
+      password: "",
+      confirmPassword: "",
       signUp: true,
-      errors: '',
+      errors: "",
     };
   },
   methods: {
@@ -112,8 +125,8 @@ export default {
       try {
         const data = { username: this.email, password: this.password };
         response = await axios.post(`${config.BASE_URL}/api-token-auth/`, data);
-        window.localStorage.setItem('token', response.data.token);
-        this.$router.replace({ name: 'Bucketlist' });
+        window.localStorage.setItem("token", response.data.token);
+        this.$router.replace({ name: "Bucketlist" });
       } catch (error) {
         this.errors = error;
       }
@@ -128,7 +141,7 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 #register {
   $screen-width: 900px;
   background: url(../assets/image.jpg);
@@ -138,7 +151,7 @@ export default {
     display: flex;
     flex-flow: column;
     min-height: 100vh;
-    background: rgba(0, 0, 0, .8);
+    background: rgba(0, 0, 0, 0.8);
   }
   .navbar {
     display: flex;
@@ -170,7 +183,7 @@ export default {
       flex-flow: column;
     }
     .signup-content {
-      color:  rgba(245, 242, 247, 0.705);
+      color: rgba(245, 242, 247, 0.705);
       padding-left: 4em;
       @media screen and (max-width: $screen-width) {
         padding: 0.5em;
@@ -183,9 +196,9 @@ export default {
       margin: 2em 10em;
       display: flex;
       padding: 2em;
-      background: rgba(0, 0, 0, .5);
+      background: rgba(0, 0, 0, 0.5);
       flex-direction: column;
-      border-radius: .8em;
+      border-radius: 0.8em;
       max-width: 17em;
       color: #fff;
       .login-title {
@@ -195,7 +208,7 @@ export default {
       }
       label {
         text-align: left;
-        padding: .5em 2em;
+        padding: 0.5em 2em;
         font-weight: 500;
       }
       .login-link {
@@ -208,9 +221,9 @@ export default {
         border-bottom: 1px solid #fff;
         padding: 1em;
         display: block;
-        border-radius: .3em;
+        border-radius: 0.3em;
         color: #fff;
-        font-size: .8em;
+        font-size: 0.8em;
       }
       .login-button {
         background: rgb(51, 122, 183);
