@@ -31,8 +31,8 @@
 <script>
 import axios from 'axios';
 import config from '../config';
-import EditBucketlist from './EditBucketlist';
-import Register from './Register';
+import EditBucketlist from './EditBucketlist.vue';
+import Register from './Register.vue';
 
 export default {
   name: 'Bucketlists',
@@ -91,4 +91,67 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang='scss' src='../scss/Bucketlists.scss'></style>
+<style scoped lang="scss">
+#bucketlists {
+  $screen-width: 850px;
+  color: #fff;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  min-height: 100vh;
+  background-color: black;
+  .navbar {
+    flex: 0 1 98%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    list-style: none;
+    justify-content: space-between;
+    // padding-top: 1em;
+    img {
+      height: 3em;
+      padding-bottom: .5em;
+    }
+    #logout {
+      padding: 0 2em;
+    }
+    @media screen and (max-width: $screen-width) {
+      flex-flow: column;
+    }
+    #email, input {
+      @media screen and (max-width: $screen-width) {
+        display: none;
+      }
+    }
+    span {
+      @media screen and (max-width: $screen-width) {
+        order: 1;
+        padding: 1em 0;
+      }
+    }
+  }
+  .add-bucketlist {
+    display: flex;
+    flex: 0 1 10%;
+    margin-left: 8em;
+    margin-right: 1em;
+  }
+  .bucketlist-view {
+    display: flex;
+    text-align: left;
+    flex: 0 1 70%;
+    justify-content: flex-start;
+    p {
+      padding: 4em;
+    }
+  }
+  input {
+    max-height: 2em;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    padding: .5em;
+  }
+}
+</style>

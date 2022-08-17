@@ -53,4 +53,26 @@ export default {
 };
 </script>
 
-<style scoped lang='scss' src='../scss/Item.scss'></style>
+<style scoped lang='scss'>
+#items {
+  input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    font-size: 1em;
+    padding: 0.3em 0;
+    &:checked + * {
+      color: green;
+    }
+  }
+  img {
+    height: 1em;
+    padding: 0 1em;
+    visibility: hidden;
+  }
+  &:hover > img {
+    visibility: visible;
+  }
+}
+</style>

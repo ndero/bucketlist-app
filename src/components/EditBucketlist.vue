@@ -47,7 +47,7 @@
 <script>
 import axios from 'axios';
 import config from '../config';
-import Item from './Item';
+import Item from './Item.vue';
 
 export default {
   components: {
@@ -108,4 +108,44 @@ export default {
 };
 </script>
 
-<style scoped lang='scss' src='../scss/EditBucketlist.scss'></style>
+<style scoped lang='scss'>
+#edit-bucketlist {
+  $screen-width: 850px;
+  li {
+    list-style: none;
+    padding: 0.2em 0;
+    input {
+      background: transparent;
+      color: #fff;
+      border: none;
+      border-bottom: 1px solid #fff;
+      padding: 0.5em 0;
+      font-size: 1em;
+      &:checked + * {
+        color: green;
+      }
+    }
+    .items-view {
+      display: flex;
+      input {
+        max-height: 1em;
+        margin-left: 2em;
+      }
+      @media screen and (max-width: $screen-width) {
+        flex-flow: column;
+      }
+    }
+    #add-item {
+      margin-bottom: 1em;
+    }
+    img {
+      height: 1em;
+      padding: 0 1em;
+      visibility: hidden;
+    }
+    div:hover > img {
+      visibility: visible;
+    }
+  }
+}
+</style>

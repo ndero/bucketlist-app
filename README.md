@@ -16,7 +16,7 @@ A vue frontend to consume the bucketlist API.
 </details><br>
 
 ### Snapshot
-![Screenshot of login page](/static/images/registration.png)
+![Screenshot of registration page](/public/registration.png)
 
 ### Setting up locally
 ##### Clone the repo and install node modules
@@ -25,17 +25,27 @@ git clone https://github.com/ndero/bucketlist-frontend.git
 cd bucketlist-frontend
 npm install
 ```
-##### Serve with hot reload at localhost:8080
+
+##### Compile and hot-reload for development
 ```
 npm run dev
 ```
-##### Run tests
-```
-npm run test
-```
-##### Build for production with minification
+
+##### Compile and minify for production
 ```
 npm run build
+```
+
+##### Run unit tests with [Vitest](https://vitest.dev/)
+```
+npm run test:unit
+```
+
+### Run E2E tests with [Cypress](https://www.cypress.io/)
+
+```sh
+npm run build
+npm run test:e2e # or `npm run test:e2e:ci` for headless testing
 ```
 
 ### Setting up the API

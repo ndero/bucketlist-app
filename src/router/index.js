@@ -1,12 +1,9 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Register from '@/components/Register';
-import Bucketlists from '@/components/Bucketlists';
+import { createRouter, createWebHistory } from 'vue-router'
+import Register from '@/components/Register.vue';
+import Bucketlists from '@/components/Bucketlists.vue';
 
-Vue.use(Router);
-
-const router = new Router({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/register',
@@ -21,11 +18,11 @@ const router = new Router({
       meta: { requiresAuth: true },
     },
     {
-      path: '*',
+      path: "/:catchAll(.*)",
       redirect: { name: 'Register' },
     },
-  ],
-});
+  ]
+})
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -41,4 +38,5 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-export default router;
+
+export default router
