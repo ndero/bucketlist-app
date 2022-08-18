@@ -35,7 +35,7 @@
           v-on:keyup.enter="addItem"
         />
         <ul v-if="items.length">
-          <Item
+          <todo-child
             v-for="item in items"
             :key="item.url"
             :item="item"
@@ -50,11 +50,11 @@
 <script>
 import axios from "axios";
 import config from "../config";
-import Item from "./Item.vue";
+import TodoChild from "./TodoChild.vue";
 
 export default {
   components: {
-    Item,
+    TodoChild,
   },
   props: {
     bucketlist: {

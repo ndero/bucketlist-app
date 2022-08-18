@@ -126,7 +126,7 @@ export default {
         const data = { username: this.email, password: this.password };
         response = await axios.post(`${config.BASE_URL}/api-token-auth/`, data);
         window.localStorage.setItem("token", response.data.token);
-        this.$router.replace({ name: "Bucketlist" });
+        this.$router.replace({ name: "Bucketlists" });
       } catch (error) {
         this.errors = error;
       }

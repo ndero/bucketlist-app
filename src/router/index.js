@@ -1,25 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Register from "@/components/Register.vue";
-import Bucketlists from "@/components/Bucketlists.vue";
+import AccountLogin from "@/components/AccountLogin.vue";
+import TodoItems from "@/components/TodoItems.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/register",
-      name: "Register",
-      component: Register,
+      path: "/login",
+      name: "Login",
+      component: AccountLogin,
       meta: { requiresAuth: false },
     },
     {
       path: "/",
-      name: "Bucketlist",
-      component: Bucketlists,
+      name: "Bucketlists",
+      component: TodoItems,
       meta: { requiresAuth: true },
     },
     {
       path: "/:catchAll(.*)",
-      redirect: { name: "Register" },
+      redirect: { name: "Login" },
     },
   ],
 });
@@ -27,12 +27,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (window.localStorage.getItem("token") == null) {
-      next({ name: "Register" });
+      next({ name: "Login" });
     } else {
       next();
     }
   } else if (window.localStorage.getItem("token") != null) {
-    next({ name: "Bucketlist" });
+    next({ name: "Bucketlists" });
   } else {
     next();
   }

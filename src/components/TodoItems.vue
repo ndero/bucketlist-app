@@ -16,7 +16,7 @@
     />
     <div class="bucketlist-view">
       <ul v-if="bucketlists.length">
-        <EditBucketlist
+        <todo-item
           v-for="bucketlist in bucketlists"
           :key="bucketlist.url"
           :bucketlist="bucketlist"
@@ -31,14 +31,12 @@
 <script>
 import axios from "axios";
 import config from "../config";
-import EditBucketlist from "./EditBucketlist.vue";
-import Register from "./Register.vue";
+import TodoItem from "./TodoItem.vue";
 
 export default {
-  name: "Bucketlists",
+  name: "BucketlistItem",
   components: {
-    EditBucketlist,
-    Register,
+    TodoItem,
   },
   data() {
     return {
@@ -91,7 +89,7 @@ export default {
     },
     logout() {
       window.localStorage.removeItem("token");
-      this.$router.replace({ name: "Register" });
+      this.$router.replace({ name: "Login" });
     },
   },
 };
