@@ -30,8 +30,8 @@
 
 <script>
 import axios from "axios";
-import config from "../config";
-import TodoItem from "./TodoItem.vue";
+import config from "@/config";
+import TodoItem from "@/components/TodoItem.vue";
 
 export default {
   name: "BucketlistItem",

@@ -49,8 +49,8 @@
 
 <script>
 import axios from "axios";
-import config from "../config";
-import TodoChild from "./TodoChild.vue";
+import config from "@/config";
+import TodoChild from "@/components/TodoChild.vue";
 
 export default {
   components: {
