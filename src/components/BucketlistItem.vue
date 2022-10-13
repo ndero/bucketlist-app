@@ -35,7 +35,7 @@
           v-on:keyup.enter="addItem"
         />
         <ul v-if="items.length">
-          <todo-child
+          <bucketlist-item-item
             v-for="item in items"
             :key="item.url"
             :item="item"
@@ -48,13 +48,12 @@
 </template>
 
 <script>
-import axios from "axios";
-import config from "@/config";
-import TodoChild from "@/components/TodoChild.vue";
+import { patchItem, getItem, postItem, deleteItem } from "@/api";
+import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
 
 export default {
   components: {
-    TodoChild,
+    BucketlistItemItem,
   },
   props: {
     bucketlist: {
@@ -80,33 +79,29 @@ export default {
     },
     async editBucketlist() {
       const data = { name: this.newName };
-      await axios.patch(this.bucketlist.url, data, { headers: config.headers });
+      await patchItem(this.bucketlist.url, data);
       this.bucketlist.name = this.newName;
       this.toggleEdit();
     },
     async toggleBucketlistDone() {
       const data = { done: !this.bucketlist.done };
-      await axios.patch(this.bucketlist.url, data, { headers: config.headers });
+      await patchItem(this.bucketlist.url, data);
       this.bucketlist.done = !this.bucketlist.done;
     },
     async getItems() {
-      const response = await axios.get(this.bucketlist.items_url, {
-        headers: config.headers,
-      });
+      const response = await getItem(this.bucketlist.items_url);
       this.items = response.data.results;
       return response;
     },
     async addItem() {
       const data = { name: this.newItem };
-      const response = await axios.post(this.bucketlist.items_url, data, {
-        headers: config.headers,
-      });
+      const response = await postItem(this.bucketlist.items_url, data);
       this.items.unshift(response.data);
       this.newItem = "";
       return response;
     },
     async deleteItem(url) {
-      await axios.delete(url, { headers: config.headers });
+      await deleteItem(url);
       const index = this.items.map((item) => item.url).indexOf(url);
       this.items.splice(index, 1);
     },

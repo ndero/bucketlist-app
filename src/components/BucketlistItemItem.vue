@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import config from "@/config";
+import { patchItem } from "@/api";
 
 export default {
   props: {
@@ -40,13 +39,13 @@ export default {
     },
     async editItem() {
       const data = { name: this.newName };
-      await axios.patch(this.item.url, data, { headers: config.headers });
+      await patchItem(this.item.url, data);
       this.item.name = this.newName;
       this.toggleEdit();
     },
     async toggleItemDone() {
       const data = { done: !this.item.done };
-      await axios.patch(this.item.url, data, { headers: config.headers });
+      await patchItem(this.item.url, data);
       this.item.done = !this.item.done;
     },
   },

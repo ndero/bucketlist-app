@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import AccountLogin from "@/components/AccountLogin.vue";
-import TodoItems from "@/components/TodoItems.vue";
+import BucketlistItems from "@/components/BucketlistItems.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +14,7 @@ const router = createRouter({
     {
       path: "/",
       name: "Bucketlists",
-      component: TodoItems,
+      component: BucketlistItems,
       meta: { requiresAuth: true },
     },
     {
@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (window.localStorage.getItem("token") != null) {
-    next({ name: "Bucketlists" });
+    next({ name: "BucketlistItems" });
   } else {
     next();
   }

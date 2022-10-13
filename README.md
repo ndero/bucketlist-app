@@ -5,13 +5,13 @@
 A vue frontend to consume the bucketlist API.
 </summary>
 <ul>
-<li> Add bucketlists. </li>
-<li> Add items to bucketlists. </li>
-<li> Inline editing of items. </li>
-<li> Delete items. </li>
-<li> Mark items as done. </li>
-<li> Show/hide items. </li>
-<li> Toggle edit and delete buttons. </li>
+<li>Add bucketlists.</li>
+<li>Add items to bucketlists.</li>
+<li>Inline editing of items.</li>
+<li>Delete items.</li>
+<li>Mark items as done.</li>
+<li>Show/hide items.</li>
+<li>Toggle edit and delete buttons.</li>
 </ul>
 </details><br>
 

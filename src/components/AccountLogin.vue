@@ -97,8 +97,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import config from "@/config";
+import { authenticateUser, createUser } from "@/api";
 
 export default {
   data() {
@@ -124,7 +123,7 @@ export default {
       let response;
       try {
         const data = { username: this.email, password: this.password };
-        response = await axios.post(`${config.BASE_URL}/api-token-auth/`, data);
+        const response = await authenticateUser(data);
         window.localStorage.setItem("token", response.data.token);
         this.$router.replace({ name: "Bucketlists" });
       } catch (error) {
@@ -134,7 +133,7 @@ export default {
     },
     async registerUser() {
       const data = { email: this.email, password: this.password };
-      await axios.post(`${config.BASE_URL}/register/`, data);
+      await createUser(data);
       this.loginUser();
     },
   },
@@ -233,6 +232,7 @@ export default {
         border: none;
         color: #fff;
         font-weight: 700;
+        cursor: pointer;
       }
       .form-errors {
         color: red;

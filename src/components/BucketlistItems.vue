@@ -16,11 +16,11 @@
     />
     <div class="bucketlist-view">
       <ul v-if="bucketlists.length">
-        <todo-item
+        <bucketlist-item
           v-for="bucketlist in bucketlists"
           :key="bucketlist.url"
           :bucketlist="bucketlist"
-          v-on:delete="deleteBucketlist"
+          v-on:delete="removeBucketlist"
         />
       </ul>
       <p v-else>You don't have any bucketlist yet.</p>
@@ -29,14 +29,12 @@
 </template>
 
 <script>
-import axios from "axios";
-import config from "@/config";
-import TodoItem from "@/components/TodoItem.vue";
+import { fetchBucketlists, createBucketlist, deleteItem } from "@/api";
+import BucketlistItem from "@/components/BucketlistItem.vue";
 
 export default {
-  name: "BucketlistItem",
   components: {
-    TodoItem,
+    BucketlistItem,
   },
   data() {
     return {
@@ -50,17 +48,9 @@ export default {
   created() {
     this.getBucketlists();
   },
-  beforeUpdate() {
-    if (this.bucketlists.length < 1 && this.count > 0) {
-      this.getBucketlists();
-    }
-  },
   methods: {
     async getBucketlists() {
-      const response = await axios.get(
-        `${config.BASE_URL}/bucketlists/?page=${this.page}`,
-        { headers: config.headers }
-      );
+      const response = await fetchBucketlists(this.page);
       this.bucketlists = response.data.results;
       this.count = response.data.count;
       this.user = response.data.results[0].user;
@@ -68,19 +58,15 @@ export default {
     },
     async addBucketlist() {
       const data = { name: this.newBucketlist, items: [] };
-      const response = await axios.post(
-        `${config.BASE_URL}/bucketlists/`,
-        data,
-        { headers: config.headers }
-      );
+      const response = await createBucketlist(data);
       this.bucketlists.unshift(response.data);
       this.bucketlists = this.bucketlists.slice(0, 10);
       this.newBucketlist = "";
       this.count += 1;
       return response;
     },
-    async deleteBucketlist(url) {
-      await axios.delete(url, { headers: config.headers });
+    async removeBucketlist(url) {
+      await deleteItem(url);
       const index = this.bucketlists
         .map((bucketlist) => bucketlist.url)
         .indexOf(url);
@@ -111,13 +97,13 @@ export default {
     align-items: center;
     list-style: none;
     justify-content: space-between;
-    // padding-top: 1em;
     img {
       height: 3em;
       padding-bottom: 0.5em;
     }
     #logout {
       padding: 0 2em;
+      cursor: pointer;
     }
     @media screen and (max-width: $screen-width) {
       flex-flow: column;
