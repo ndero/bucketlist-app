@@ -13,7 +13,7 @@ const router = createRouter({
     },
     {
       path: "/",
-      name: "Bucketlists",
+      name: "BucketlistItems",
       component: BucketlistItems,
       meta: { requiresAuth: true },
     },

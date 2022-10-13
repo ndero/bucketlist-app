@@ -96,48 +96,19 @@
   </div>
 </template>
 
-<script>
-import { authenticateUser, createUser } from "@/api";
+<script setup>
+import { storeToRefs } from "pinia";
+import { accountStore } from "@/store";
 
-export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      signUp: true,
-      errors: "",
-    };
-  },
-  methods: {
-    toggleSignUp() {
-      this.signUp = !this.signUp;
-    },
-    invalidPassword() {
-      return this.password.length < 7;
-    },
-    invalidConfirmPassword() {
-      return this.password !== this.confirmPassword;
-    },
-    async loginUser() {
-      let response;
-      try {
-        const data = { username: this.email, password: this.password };
-        const response = await authenticateUser(data);
-        window.localStorage.setItem("token", response.data.token);
-        this.$router.replace({ name: "Bucketlists" });
-      } catch (error) {
-        this.errors = error;
-      }
-      return response;
-    },
-    async registerUser() {
-      const data = { email: this.email, password: this.password };
-      await createUser(data);
-      this.loginUser();
-    },
-  },
-};
+const store = accountStore();
+const { email, password, confirmPassword, signUp, errors } = storeToRefs(store);
+const {
+  toggleSignUp,
+  invalidPassword,
+  invalidConfirmPassword,
+  loginUser,
+  registerUser,
+} = accountStore();
 </script>
 
 <style scoped lang="scss">

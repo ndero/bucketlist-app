@@ -28,57 +28,17 @@
   </div>
 </template>
 
-<script>
-import { fetchBucketlists, createBucketlist, deleteItem } from "@/api";
+<script setup>
+import { storeToRefs } from "pinia";
+import { bucketlistStore } from "@/store";
 import BucketlistItem from "@/components/BucketlistItem.vue";
 
-export default {
-  components: {
-    BucketlistItem,
-  },
-  data() {
-    return {
-      bucketlists: [],
-      newBucketlist: "",
-      user: "",
-      count: 0,
-      page: 1,
-    };
-  },
-  created() {
-    this.getBucketlists();
-  },
-  methods: {
-    async getBucketlists() {
-      const response = await fetchBucketlists(this.page);
-      this.bucketlists = response.data.results;
-      this.count = response.data.count;
-      this.user = response.data.results[0].user;
-      return response;
-    },
-    async addBucketlist() {
-      const data = { name: this.newBucketlist, items: [] };
-      const response = await createBucketlist(data);
-      this.bucketlists.unshift(response.data);
-      this.bucketlists = this.bucketlists.slice(0, 10);
-      this.newBucketlist = "";
-      this.count += 1;
-      return response;
-    },
-    async removeBucketlist(url) {
-      await deleteItem(url);
-      const index = this.bucketlists
-        .map((bucketlist) => bucketlist.url)
-        .indexOf(url);
-      this.bucketlists.splice(index, 1);
-      this.count -= 1;
-    },
-    logout() {
-      window.localStorage.removeItem("token");
-      this.$router.replace({ name: "Login" });
-    },
-  },
-};
+const store = bucketlistStore();
+const { bucketlists, newBucketlist, user, count } = storeToRefs(store);
+const { getBucketlists, addBucketlist, removeBucketlist, logout } =
+  bucketlistStore();
+
+getBucketlists();
 </script>
 
 <style scoped lang="scss">
@@ -89,7 +49,6 @@ export default {
   flex-flow: row wrap;
   align-content: flex-start;
   min-height: 100vh;
-  background-color: black;
   .navbar {
     flex: 0 1 98%;
     display: flex;
