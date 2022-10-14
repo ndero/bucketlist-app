@@ -108,7 +108,7 @@ const {
   invalidConfirmPassword,
   loginUser,
   registerUser,
-} = accountStore();
+} = store;
 </script>
 
 <style scoped lang="scss">

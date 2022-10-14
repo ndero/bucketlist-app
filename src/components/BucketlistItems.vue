@@ -20,7 +20,8 @@
           v-for="bucketlist in bucketlists"
           :key="bucketlist.url"
           :bucketlist="bucketlist"
-          v-on:delete="removeBucketlist"
+          @delete="removeBucketlist"
+          @update="updateBucketlist"
         />
       </ul>
       <p v-else>You don't have any bucketlist yet.</p>
@@ -35,8 +36,13 @@ import BucketlistItem from "@/components/BucketlistItem.vue";
 
 const store = bucketlistStore();
 const { bucketlists, newBucketlist, user, count } = storeToRefs(store);
-const { getBucketlists, addBucketlist, removeBucketlist, logout } =
-  bucketlistStore();
+const {
+  getBucketlists,
+  addBucketlist,
+  removeBucketlist,
+  updateBucketlist,
+  logout,
+} = store;
 
 getBucketlists();
 </script>

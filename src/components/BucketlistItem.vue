@@ -4,23 +4,28 @@
       <div>
         <input
           type="checkbox"
-          v-on:click.prevent="toggleBucketlistDone"
+          v-on:click.prevent="
+            toggleBucketlistDone(bucketlist.url, bucketlist.done)
+          "
           :checked="bucketlist.done"
         />
         <input
           v-if="allowEdit"
           type="text"
           v-model="newName"
-          v-on:keyup.enter="editBucketlist"
+          v-on:keyup.enter="editBucketlist(bucketlist.url)"
         />
         <span
           v-if="!allowEdit"
           v-on:click="toggleShowItems"
-          v-on:click.once="getItems"
+          v-on:click.once="getItems(bucketlist.items_url)"
         >
           {{ bucketlist.name }}
         </span>
-        <img src="../assets/edit.png" v-on:click="toggleEdit" />
+        <img
+          src="../assets/edit.png"
+          v-on:click="toggleEdit(bucketlist.name)"
+        />
         <img
           src="../assets/delete.png"
           v-on:click="$emit('delete', bucketlist.url)"
@@ -32,14 +37,15 @@
           placeholder="Add an item"
           type="text"
           v-model.trim="newItem"
-          v-on:keyup.enter="addItem"
+          v-on:keyup.enter="addItem(bucketlist.items_url)"
         />
         <ul v-if="items.length">
           <bucketlist-item-item
             v-for="item in items"
             :key="item.url"
             :item="item"
-            v-on:delete="deleteItem"
+            @delete="deleteItem"
+            @update="updateItem"
           />
         </ul>
       </div>
@@ -48,6 +54,9 @@
 </template>
 
 <script>
+/* TODO: why using a store with this component causes all children
+ * items to be displayed at the same time.
+ */
 import { patchItem, getItem, postItem, deleteItem } from "@/api";
 import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
 
@@ -65,37 +74,44 @@ export default {
     return {
       allowEdit: false,
       showItems: false,
-      newName: this.bucketlist.name,
+      newName: "",
       items: [],
       newItem: "",
     };
   },
   methods: {
-    toggleEdit() {
+    toggleEdit(name) {
       this.allowEdit = !this.allowEdit;
+      if (this.allowEdit) {
+        this.newName = name;
+      } else {
+        this.newName = "";
+      }
     },
     toggleShowItems() {
       this.showItems = !this.showItems;
     },
-    async editBucketlist() {
-      const data = { name: this.newName };
-      await patchItem(this.bucketlist.url, data);
-      this.bucketlist.name = this.newName;
+    async editBucketlist(url) {
+      const apiData = { name: this.newName };
+      const emitData = { url, name: this.newName };
+      await patchItem(url, apiData);
+      this.$emit("update", emitData);
       this.toggleEdit();
     },
-    async toggleBucketlistDone() {
-      const data = { done: !this.bucketlist.done };
-      await patchItem(this.bucketlist.url, data);
-      this.bucketlist.done = !this.bucketlist.done;
+    async toggleBucketlistDone(url, done) {
+      const apiData = { done: !done };
+      const emitData = { url, done: !done };
+      await patchItem(url, apiData);
+      this.$emit("update", emitData);
     },
-    async getItems() {
-      const response = await getItem(this.bucketlist.items_url);
+    async getItems(url) {
+      const response = await getItem(url);
       this.items = response.data.results;
       return response;
     },
-    async addItem() {
+    async addItem(url) {
       const data = { name: this.newItem };
-      const response = await postItem(this.bucketlist.items_url, data);
+      const response = await postItem(url, data);
       this.items.unshift(response.data);
       this.newItem = "";
       return response;
@@ -104,6 +120,15 @@ export default {
       await deleteItem(url);
       const index = this.items.map((item) => item.url).indexOf(url);
       this.items.splice(index, 1);
+    },
+    async updateItem(data) {
+      const { url, name, done } = data;
+      const item = this.items.find((itm) => itm.url === url);
+      if (name) {
+        item.name = name;
+      } else {
+        item.done = done;
+      }
     },
   },
 };

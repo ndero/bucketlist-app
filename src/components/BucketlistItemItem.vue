@@ -3,16 +3,16 @@
     <input
       type="checkbox"
       :checked="item.done"
-      v-on:click.prevent="toggleItemDone"
+      v-on:click.prevent="toggleItemDone(item.url, item.done)"
     />
     <span v-if="!allowEdit">{{ item.name }}</span>
     <input
       v-if="allowEdit"
       v-model="newName"
-      v-on:keyup.enter="editItem"
+      v-on:keyup.enter="editItem(item.url)"
       type="text"
     />
-    <img src="../assets/edit.png" v-on:click="toggleEdit" />
+    <img src="../assets/edit.png" v-on:click="toggleEdit(item.name)" />
     <img src="../assets/delete.png" v-on:click="$emit('delete', item.url)" />
   </li>
 </template>
@@ -30,23 +30,30 @@ export default {
   data() {
     return {
       allowEdit: false,
-      newName: this.item.name,
+      newName: "",
     };
   },
   methods: {
-    toggleEdit() {
+    toggleEdit(name) {
       this.allowEdit = !this.allowEdit;
+      if (this.allowEdit) {
+        this.newName = name;
+      } else {
+        this.newName = "";
+      }
     },
-    async editItem() {
-      const data = { name: this.newName };
-      await patchItem(this.item.url, data);
-      this.item.name = this.newName;
+    async editItem(url) {
+      const apiData = { name: this.newName };
+      const emitData = { url, name: this.newName };
+      await patchItem(url, apiData);
+      this.$emit("update", emitData);
       this.toggleEdit();
     },
-    async toggleItemDone() {
-      const data = { done: !this.item.done };
-      await patchItem(this.item.url, data);
-      this.item.done = !this.item.done;
+    async toggleItemDone(url, done) {
+      const apiData = { done: !done };
+      const emitData = { url, done: !done };
+      await patchItem(url, apiData);
+      this.$emit("update", emitData);
     },
   },
 };
