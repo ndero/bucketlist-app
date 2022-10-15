@@ -1,3 +1,20 @@
+<script setup>
+import { storeToRefs } from "pinia";
+import { accountStore } from "@/store";
+
+const store = accountStore();
+const { toggleSignUp, loginUser, registerUser } = store;
+const {
+  email,
+  password,
+  confirmPassword,
+  signUp,
+  errors,
+  invalidPassword,
+  invalidConfirmPassword,
+} = storeToRefs(store);
+</script>
+
 <template>
   <div id="register">
     <div id="register-foreground">
@@ -95,23 +112,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { storeToRefs } from "pinia";
-import { accountStore } from "@/store";
-
-const store = accountStore();
-const { toggleSignUp, loginUser, registerUser } = store;
-const {
-  email,
-  password,
-  confirmPassword,
-  signUp,
-  errors,
-  invalidPassword,
-  invalidConfirmPassword,
-} = storeToRefs(store);
-</script>
 
 <style scoped lang="scss">
 #register {

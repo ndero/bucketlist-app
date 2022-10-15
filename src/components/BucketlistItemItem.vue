@@ -1,3 +1,42 @@
+<script setup>
+import { ref } from "vue";
+import { patchItem } from "@/api";
+
+defineProps({
+  item: {
+    type: Object,
+    required: true,
+  },
+});
+const emit = defineEmits(["update"]);
+
+const allowEdit = ref(false);
+const newName = ref("");
+
+const toggleEdit = (name) => {
+  allowEdit.value = !allowEdit.value;
+  if (allowEdit.value) {
+    newName.value = name;
+  } else {
+    newName.value = "";
+  }
+};
+const editItem = async (url) => {
+  const apiData = { name: newName.value };
+  const emitData = { url, name: newName.value };
+  const response = await patchItem(url, apiData);
+  emit("update", emitData);
+  toggleEdit();
+  return response;
+};
+const toggleItemDone = async (url, done) => {
+  const apiData = { done: !done };
+  const emitData = { url, done: !done };
+  const response = await patchItem(url, apiData);
+  emit("update", emitData);
+  return response;
+};
+</script>
 <template>
   <li id="items">
     <input
@@ -16,50 +55,6 @@
     <img src="../assets/delete.png" v-on:click="$emit('delete', item.url)" />
   </li>
 </template>
-
-<script>
-import { patchItem } from "@/api";
-
-export default {
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      allowEdit: false,
-      newName: "",
-    };
-  },
-  methods: {
-    toggleEdit(name) {
-      this.allowEdit = !this.allowEdit;
-      if (this.allowEdit) {
-        this.newName = name;
-      } else {
-        this.newName = "";
-      }
-    },
-    async editItem(url) {
-      const apiData = { name: this.newName };
-      const emitData = { url, name: this.newName };
-      const response = await patchItem(url, apiData);
-      this.$emit("update", emitData);
-      this.toggleEdit();
-      return response;
-    },
-    async toggleItemDone(url, done) {
-      const apiData = { done: !done };
-      const emitData = { url, done: !done };
-      const response = await patchItem(url, apiData);
-      this.$emit("update", emitData);
-      return response;
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 #items {

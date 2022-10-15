@@ -41,11 +41,10 @@ npm run build
 npm run test:unit
 ```
 
-##### Run E2E tests with [Cypress](https://www.cypress.io/)
+##### Run unit tests with coverage
 
 ```
-npm run build
-npm run test:e2e # or `npm run test:e2e:ci` for headless testing
+npm run test:coverage
 ```
 
 ##### Setting up the API

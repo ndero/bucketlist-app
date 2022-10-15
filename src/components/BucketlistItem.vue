@@ -1,3 +1,82 @@
+<script setup>
+/* TODO: why using a store with this component causes all children
+ * items to be displayed at the same time. Then again no need to
+ * create a store for this component as the data here is only being
+ * used here.
+ */
+import { ref } from "vue";
+import { patchItem, getItem, postItem, deleteItem } from "@/api";
+import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
+
+defineProps({
+  bucketlist: {
+    type: Object,
+    required: true,
+  },
+});
+const emit = defineEmits(["update"]);
+
+const showItems = ref(false);
+const allowEdit = ref(false);
+const newName = ref("");
+const items = ref([]);
+const newItem = ref("");
+
+const toggleEdit = (name) => {
+  allowEdit.value = !allowEdit.value;
+  if (allowEdit.value) {
+    newName.value = name;
+  } else {
+    newName.value = "";
+  }
+};
+const toggleShowItems = () => {
+  showItems.value = !showItems.value;
+};
+const editBucketlist = async (url) => {
+  const apiData = { name: newName.value };
+  const emitData = { url, name: newName.value };
+  const response = await patchItem(url, apiData);
+  emit("update", emitData);
+  toggleEdit();
+  return response;
+};
+const toggleBucketlistDone = async (url, done) => {
+  const apiData = { done: !done };
+  const emitData = { url, done: !done };
+  const response = await patchItem(url, apiData);
+  emit("update", emitData);
+  return response;
+};
+const getItems = async (url) => {
+  const response = await getItem(url);
+  items.value = response.data.results;
+  return response;
+};
+const addItem = async (url) => {
+  const data = { name: newItem.value };
+  const response = await postItem(url, data);
+  items.value.unshift(response.data);
+  newItem.value = "";
+  return response;
+};
+const removeItem = async (url) => {
+  const response = await deleteItem(url);
+  const index = items.value.map((item) => item.url).indexOf(url);
+  items.value.splice(index, 1);
+  return response;
+};
+const updateItem = async (data) => {
+  const { url, name, done } = data;
+  const item = items.value.find((itm) => itm.url === url);
+  if (name) {
+    item.name = name;
+  } else {
+    item.done = done;
+  }
+};
+</script>
+
 <template>
   <div id="edit-bucketlist">
     <li>
@@ -44,7 +123,7 @@
             v-for="item in items"
             :key="item.url"
             :item="item"
-            @delete="deleteItem"
+            @delete="removeItem"
             @update="updateItem"
           />
         </ul>
@@ -52,92 +131,6 @@
     </li>
   </div>
 </template>
-
-<script>
-/* TODO: why using a store with this component causes all children
- * items to be displayed at the same time. Then again no need to
- * create a store for this component as the data here is only being
- * used here.
- */
-import { patchItem, getItem, postItem, deleteItem } from "@/api";
-import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
-
-export default {
-  components: {
-    BucketlistItemItem,
-  },
-  props: {
-    bucketlist: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      allowEdit: false,
-      showItems: false,
-      newName: "",
-      items: [],
-      newItem: "",
-    };
-  },
-  methods: {
-    toggleEdit(name) {
-      this.allowEdit = !this.allowEdit;
-      if (this.allowEdit) {
-        this.newName = name;
-      } else {
-        this.newName = "";
-      }
-    },
-    toggleShowItems() {
-      this.showItems = !this.showItems;
-    },
-    async editBucketlist(url) {
-      const apiData = { name: this.newName };
-      const emitData = { url, name: this.newName };
-      const response = await patchItem(url, apiData);
-      this.$emit("update", emitData);
-      this.toggleEdit();
-      return response;
-    },
-    async toggleBucketlistDone(url, done) {
-      const apiData = { done: !done };
-      const emitData = { url, done: !done };
-      const response = await patchItem(url, apiData);
-      this.$emit("update", emitData);
-      return response;
-    },
-    async getItems(url) {
-      const response = await getItem(url);
-      this.items = response.data.results;
-      return response;
-    },
-    async addItem(url) {
-      const data = { name: this.newItem };
-      const response = await postItem(url, data);
-      this.items.unshift(response.data);
-      this.newItem = "";
-      return response;
-    },
-    async deleteItem(url) {
-      const response = await deleteItem(url);
-      const index = this.items.map((item) => item.url).indexOf(url);
-      this.items.splice(index, 1);
-      return response;
-    },
-    async updateItem(data) {
-      const { url, name, done } = data;
-      const item = this.items.find((itm) => itm.url === url);
-      if (name) {
-        item.name = name;
-      } else {
-        item.done = done;
-      }
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 #edit-bucketlist {

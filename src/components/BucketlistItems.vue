@@ -1,3 +1,21 @@
+<script setup>
+import { storeToRefs } from "pinia";
+import { bucketlistStore } from "@/store";
+import BucketlistItem from "@/components/BucketlistItem.vue";
+
+const store = bucketlistStore();
+const { bucketlists, newBucketlist, user, count } = storeToRefs(store);
+const {
+  getBucketlists,
+  addBucketlist,
+  removeBucketlist,
+  updateBucketlist,
+  logout,
+} = store;
+
+getBucketlists();
+</script>
+
 <template>
   <div id="bucketlists">
     <ul class="navbar">
@@ -28,24 +46,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { storeToRefs } from "pinia";
-import { bucketlistStore } from "@/store";
-import BucketlistItem from "@/components/BucketlistItem.vue";
-
-const store = bucketlistStore();
-const { bucketlists, newBucketlist, user, count } = storeToRefs(store);
-const {
-  getBucketlists,
-  addBucketlist,
-  removeBucketlist,
-  updateBucketlist,
-  logout,
-} = store;
-
-getBucketlists();
-</script>
 
 <style scoped lang="scss">
 #bucketlists {
