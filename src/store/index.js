@@ -19,18 +19,15 @@ export const accountStore = defineStore("account", {
       errors: "",
     };
   },
+  getters: {
+    invalidPassword: (state) => state.password.length < 7,
+    invalidConfirmPassword: (state) => state.password !== state.confirmPassword,
+  },
   actions: {
     toggleSignUp() {
       this.signUp = !this.signUp;
     },
-    invalidPassword() {
-      return this.password.length < 7;
-    },
-    invalidConfirmPassword() {
-      return this.password !== this.confirmPassword;
-    },
     async loginUser() {
-      let response;
       try {
         const data = { username: this.email, password: this.password };
         const response = await authenticateUser(data);
@@ -41,7 +38,6 @@ export const accountStore = defineStore("account", {
       } catch (error) {
         this.errors = error;
       }
-      return response;
     },
     async registerUser() {
       const data = { email: this.email, password: this.password };
@@ -67,7 +63,6 @@ export const bucketlistStore = defineStore("bucketlist", {
       this.bucketlists = response.data.results;
       this.count = response.data.count;
       this.user = response.data.results[0].user;
-      return response;
     },
     async addBucketlist() {
       const data = { name: this.newBucketlist, items: [] };
@@ -76,7 +71,6 @@ export const bucketlistStore = defineStore("bucketlist", {
       this.bucketlists = this.bucketlists.slice(0, 10);
       this.newBucketlist = "";
       this.count += 1;
-      return response;
     },
     async removeBucketlist(url) {
       await deleteItem(url);
@@ -95,7 +89,7 @@ export const bucketlistStore = defineStore("bucketlist", {
         bucketlist.done = done;
       }
     },
-    async logout() {
+    logout() {
       window.localStorage.removeItem("token");
       router.replace({ name: "Login" });
     },

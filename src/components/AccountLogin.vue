@@ -45,7 +45,7 @@
               v-model.trim="password"
               id="password"
             />
-            <span class="form-errors" v-show="password && invalidPassword()">
+            <span class="form-errors" v-show="password && invalidPassword">
               password must be at least 8 characters long
             </span>
           </label>
@@ -58,7 +58,7 @@
             />
             <span
               class="form-errors"
-              v-show="confirmPassword && invalidConfirmPassword()"
+              v-show="confirmPassword && invalidConfirmPassword"
             >
               passwords don't match
             </span>
@@ -101,14 +101,16 @@ import { storeToRefs } from "pinia";
 import { accountStore } from "@/store";
 
 const store = accountStore();
-const { email, password, confirmPassword, signUp, errors } = storeToRefs(store);
+const { toggleSignUp, loginUser, registerUser } = store;
 const {
-  toggleSignUp,
+  email,
+  password,
+  confirmPassword,
+  signUp,
+  errors,
   invalidPassword,
   invalidConfirmPassword,
-  loginUser,
-  registerUser,
-} = store;
+} = storeToRefs(store);
 </script>
 
 <style scoped lang="scss">

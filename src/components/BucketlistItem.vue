@@ -55,7 +55,9 @@
 
 <script>
 /* TODO: why using a store with this component causes all children
- * items to be displayed at the same time.
+ * items to be displayed at the same time. Then again no need to
+ * create a store for this component as the data here is only being
+ * used here.
  */
 import { patchItem, getItem, postItem, deleteItem } from "@/api";
 import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
@@ -94,15 +96,17 @@ export default {
     async editBucketlist(url) {
       const apiData = { name: this.newName };
       const emitData = { url, name: this.newName };
-      await patchItem(url, apiData);
+      const response = await patchItem(url, apiData);
       this.$emit("update", emitData);
       this.toggleEdit();
+      return response;
     },
     async toggleBucketlistDone(url, done) {
       const apiData = { done: !done };
       const emitData = { url, done: !done };
-      await patchItem(url, apiData);
+      const response = await patchItem(url, apiData);
       this.$emit("update", emitData);
+      return response;
     },
     async getItems(url) {
       const response = await getItem(url);
@@ -117,9 +121,10 @@ export default {
       return response;
     },
     async deleteItem(url) {
-      await deleteItem(url);
+      const response = await deleteItem(url);
       const index = this.items.map((item) => item.url).indexOf(url);
       this.items.splice(index, 1);
+      return response;
     },
     async updateItem(data) {
       const { url, name, done } = data;

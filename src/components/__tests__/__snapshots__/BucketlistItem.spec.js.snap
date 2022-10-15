@@ -1,0 +1,36 @@
+// Vitest Snapshot v1
+
+exports[`Bucketlist Item tests > matches snapshot 1`] = `
+<div
+  data-v-9bb5f6aa=""
+  id="edit-bucketlist"
+>
+  <li
+    data-v-9bb5f6aa=""
+  >
+    <div
+      data-v-9bb5f6aa=""
+    >
+      <input
+        data-v-9bb5f6aa=""
+        type="checkbox"
+      />
+      <!--v-if-->
+      <span
+        data-v-9bb5f6aa=""
+      >
+        Buy Groceries
+      </span>
+      <img
+        data-v-9bb5f6aa=""
+        src="/src/assets/edit.png"
+      />
+      <img
+        data-v-9bb5f6aa=""
+        src="/src/assets/delete.png"
+      />
+    </div>
+    <!--v-if-->
+  </li>
+</div>
+`;

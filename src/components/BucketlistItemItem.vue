@@ -45,15 +45,17 @@ export default {
     async editItem(url) {
       const apiData = { name: this.newName };
       const emitData = { url, name: this.newName };
-      await patchItem(url, apiData);
+      const response = await patchItem(url, apiData);
       this.$emit("update", emitData);
       this.toggleEdit();
+      return response;
     },
     async toggleItemDone(url, done) {
       const apiData = { done: !done };
       const emitData = { url, done: !done };
-      await patchItem(url, apiData);
+      const response = await patchItem(url, apiData);
       this.$emit("update", emitData);
+      return response;
     },
   },
 };
