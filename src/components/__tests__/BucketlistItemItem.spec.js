@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import axios from "axios";
 import { shallowMount } from "@vue/test-utils";
 import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
-import { items } from "./fixtures.js";
+import { items } from "@/components/__tests__/fixtures.js";
 
 vi.mock("axios", () => {
   return {
@@ -41,6 +41,8 @@ describe("Bucketlist Item Item tests", () => {
   it("toggles edit mode", () => {
     wrapper.vm.toggleEdit();
     expect(wrapper.vm.allowEdit).toBeTruthy();
+    wrapper.vm.toggleEdit();
+    expect(wrapper.vm.allowEdit).toBeFalsy();
   });
   it("edit item name", async () => {
     expect(wrapper.vm.item.name).toEqual("Broccoli");

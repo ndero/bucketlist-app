@@ -24,7 +24,7 @@ const postResponse = {
   },
 };
 
-describe("BucketlistItems store tests", () => {
+describe("BucketlistItems store", () => {
   beforeEach(() => {
     axios.get.mockResolvedValue(getResponse);
     axios.post.mockResolvedValue(postResponse);
@@ -85,6 +85,6 @@ describe("BucketlistItems store tests", () => {
     const store = bucketlistStore();
     const storageSpy = vi.spyOn(Storage.prototype, "removeItem");
     store.logout();
-    expect(storageSpy).toHaveBeenCalledTimes(1);
+    expect(storageSpy).toHaveBeenCalledOnce();
   });
 });

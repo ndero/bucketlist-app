@@ -1,5 +1,593 @@
 // Vitest Snapshot v1
 
+exports[`Register tests > login errors snapshot 1`] = `
+<div
+  data-v-e92146ac=""
+  id="register"
+>
+  <div
+    data-v-e92146ac=""
+    id="register-foreground"
+  >
+    <ul
+      class="navbar"
+      data-v-e92146ac=""
+    >
+      <li
+        data-v-e92146ac=""
+      >
+        <img
+          alt="logo"
+          bucketlist=""
+          data-v-e92146ac=""
+          image=""
+          src="/src/assets/bucketlist.jpg"
+        />
+      </li>
+      <li
+        data-v-e92146ac=""
+      >
+        <h1
+          data-v-e92146ac=""
+        >
+          Bucketlist App
+        </h1>
+      </li>
+      <h3
+        data-v-e92146ac=""
+      >
+        <a
+          data-v-e92146ac=""
+          href="/register"
+          style="display: none;"
+        >
+          Register
+        </a>
+      </h3>
+      <h3
+        data-v-e92146ac=""
+      >
+        <a
+          data-v-e92146ac=""
+          href="/register"
+        >
+          Login
+        </a>
+      </h3>
+    </ul>
+    <div
+      class="register-page"
+      data-v-e92146ac=""
+    >
+      <div
+        class="signup-content"
+        data-v-e92146ac=""
+      >
+        <h2
+          data-v-e92146ac=""
+        >
+          Do you have big Dreams?
+        </h2>
+        <h3
+          data-v-e92146ac=""
+        >
+           Imagine if you could be Able to immortalise your dreams, keep track of them and share with your friends. The bucketlist App does just that for you! 
+        </h3>
+      </div>
+      <form
+        data-v-e92146ac=""
+      >
+        <span
+          class="login-title"
+          data-v-e92146ac=""
+        >
+          Register
+        </span>
+        <span
+          class="login-title"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+           Sign in
+        </span>
+        <label
+          data-v-e92146ac=""
+        >
+           Email 
+          <input
+            data-v-e92146ac=""
+            placeholder="Your email"
+            type="email"
+          />
+        </label>
+        <label
+          data-v-e92146ac=""
+        >
+           Password 
+          <input
+            data-v-e92146ac=""
+            id="password"
+            placeholder="Your password"
+            type="password"
+          />
+          <span
+            class="form-errors"
+            data-v-e92146ac=""
+            style="display: none;"
+          >
+             password must be at least 8 characters long 
+          </span>
+        </label>
+        <label
+          data-v-e92146ac=""
+        >
+           confirm password 
+          <input
+            data-v-e92146ac=""
+            placeholder="Confirm password"
+            type="password"
+          />
+          <span
+            class="form-errors"
+            data-v-e92146ac=""
+            style="display: none;"
+          >
+             passwords don't match 
+          </span>
+        </label>
+        <span
+          class="form-errors"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+           Invalid login credentials. 
+        </span>
+        <span
+          class="login-link"
+          data-v-e92146ac=""
+        >
+          <p
+            data-v-e92146ac=""
+          >
+            Already have an account?
+          </p>
+          <a
+            data-v-e92146ac=""
+            href="/register"
+          >
+            Sign in
+          </a>
+        </span>
+        <span
+          class="login-link"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+          <p
+            data-v-e92146ac=""
+          >
+            Don't have an account?
+          </p>
+          <a
+            data-v-e92146ac=""
+            href="/register"
+          >
+            Register
+          </a>
+        </span>
+        <button
+          class="login-button"
+          data-v-e92146ac=""
+          type="submit"
+        >
+           Register 
+        </button>
+        <button
+          class="login-button"
+          data-v-e92146ac=""
+          style="display: none;"
+          type="submit"
+        >
+           Login 
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Register tests > login view snapshot with errors 1`] = `
+<div
+  data-v-e92146ac=""
+  id="register"
+>
+  <div
+    data-v-e92146ac=""
+    id="register-foreground"
+  >
+    <ul
+      class="navbar"
+      data-v-e92146ac=""
+    >
+      <li
+        data-v-e92146ac=""
+      >
+        <img
+          alt="logo"
+          bucketlist=""
+          data-v-e92146ac=""
+          image=""
+          src="/src/assets/bucketlist.jpg"
+        />
+      </li>
+      <li
+        data-v-e92146ac=""
+      >
+        <h1
+          data-v-e92146ac=""
+        >
+          Bucketlist App
+        </h1>
+      </li>
+      <h3
+        data-v-e92146ac=""
+      >
+        <a
+          data-v-e92146ac=""
+          href="/register"
+          style="display: none;"
+        >
+          Register
+        </a>
+      </h3>
+      <h3
+        data-v-e92146ac=""
+      >
+        <a
+          data-v-e92146ac=""
+          href="/register"
+        >
+          Login
+        </a>
+      </h3>
+    </ul>
+    <div
+      class="register-page"
+      data-v-e92146ac=""
+    >
+      <div
+        class="signup-content"
+        data-v-e92146ac=""
+      >
+        <h2
+          data-v-e92146ac=""
+        >
+          Do you have big Dreams?
+        </h2>
+        <h3
+          data-v-e92146ac=""
+        >
+           Imagine if you could be Able to immortalise your dreams, keep track of them and share with your friends. The bucketlist App does just that for you! 
+        </h3>
+      </div>
+      <form
+        data-v-e92146ac=""
+      >
+        <span
+          class="login-title"
+          data-v-e92146ac=""
+        >
+          Register
+        </span>
+        <span
+          class="login-title"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+           Sign in
+        </span>
+        <label
+          data-v-e92146ac=""
+        >
+           Email 
+          <input
+            data-v-e92146ac=""
+            placeholder="Your email"
+            type="email"
+          />
+        </label>
+        <label
+          data-v-e92146ac=""
+        >
+           Password 
+          <input
+            data-v-e92146ac=""
+            id="password"
+            placeholder="Your password"
+            type="password"
+          />
+          <span
+            class="form-errors"
+            data-v-e92146ac=""
+            style="display: none;"
+          >
+             password must be at least 8 characters long 
+          </span>
+        </label>
+        <label
+          data-v-e92146ac=""
+        >
+           confirm password 
+          <input
+            data-v-e92146ac=""
+            placeholder="Confirm password"
+            type="password"
+          />
+          <span
+            class="form-errors"
+            data-v-e92146ac=""
+            style="display: none;"
+          >
+             passwords don't match 
+          </span>
+        </label>
+        <span
+          class="form-errors"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+           Invalid login credentials. 
+        </span>
+        <span
+          class="login-link"
+          data-v-e92146ac=""
+        >
+          <p
+            data-v-e92146ac=""
+          >
+            Already have an account?
+          </p>
+          <a
+            data-v-e92146ac=""
+            href="/register"
+          >
+            Sign in
+          </a>
+        </span>
+        <span
+          class="login-link"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+          <p
+            data-v-e92146ac=""
+          >
+            Don't have an account?
+          </p>
+          <a
+            data-v-e92146ac=""
+            href="/register"
+          >
+            Register
+          </a>
+        </span>
+        <button
+          class="login-button"
+          data-v-e92146ac=""
+          type="submit"
+        >
+           Register 
+        </button>
+        <button
+          class="login-button"
+          data-v-e92146ac=""
+          style="display: none;"
+          type="submit"
+        >
+           Login 
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Register tests > login view with errors snapshot 1`] = `
+<div
+  data-v-e92146ac=""
+  id="register"
+>
+  <div
+    data-v-e92146ac=""
+    id="register-foreground"
+  >
+    <ul
+      class="navbar"
+      data-v-e92146ac=""
+    >
+      <li
+        data-v-e92146ac=""
+      >
+        <img
+          alt="logo"
+          bucketlist=""
+          data-v-e92146ac=""
+          image=""
+          src="/src/assets/bucketlist.jpg"
+        />
+      </li>
+      <li
+        data-v-e92146ac=""
+      >
+        <h1
+          data-v-e92146ac=""
+        >
+          Bucketlist App
+        </h1>
+      </li>
+      <h3
+        data-v-e92146ac=""
+      >
+        <a
+          data-v-e92146ac=""
+          href="/register"
+          style="display: none;"
+        >
+          Register
+        </a>
+      </h3>
+      <h3
+        data-v-e92146ac=""
+      >
+        <a
+          data-v-e92146ac=""
+          href="/register"
+        >
+          Login
+        </a>
+      </h3>
+    </ul>
+    <div
+      class="register-page"
+      data-v-e92146ac=""
+    >
+      <div
+        class="signup-content"
+        data-v-e92146ac=""
+      >
+        <h2
+          data-v-e92146ac=""
+        >
+          Do you have big Dreams?
+        </h2>
+        <h3
+          data-v-e92146ac=""
+        >
+           Imagine if you could be Able to immortalise your dreams, keep track of them and share with your friends. The bucketlist App does just that for you! 
+        </h3>
+      </div>
+      <form
+        data-v-e92146ac=""
+      >
+        <span
+          class="login-title"
+          data-v-e92146ac=""
+        >
+          Register
+        </span>
+        <span
+          class="login-title"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+           Sign in
+        </span>
+        <label
+          data-v-e92146ac=""
+        >
+           Email 
+          <input
+            data-v-e92146ac=""
+            placeholder="Your email"
+            type="email"
+          />
+        </label>
+        <label
+          data-v-e92146ac=""
+        >
+           Password 
+          <input
+            data-v-e92146ac=""
+            id="password"
+            placeholder="Your password"
+            type="password"
+          />
+          <span
+            class="form-errors"
+            data-v-e92146ac=""
+            style="display: none;"
+          >
+             password must be at least 8 characters long 
+          </span>
+        </label>
+        <label
+          data-v-e92146ac=""
+        >
+           confirm password 
+          <input
+            data-v-e92146ac=""
+            placeholder="Confirm password"
+            type="password"
+          />
+          <span
+            class="form-errors"
+            data-v-e92146ac=""
+            style="display: none;"
+          >
+             passwords don't match 
+          </span>
+        </label>
+        <span
+          class="form-errors"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+           Invalid login credentials. 
+        </span>
+        <span
+          class="login-link"
+          data-v-e92146ac=""
+        >
+          <p
+            data-v-e92146ac=""
+          >
+            Already have an account?
+          </p>
+          <a
+            data-v-e92146ac=""
+            href="/register"
+          >
+            Sign in
+          </a>
+        </span>
+        <span
+          class="login-link"
+          data-v-e92146ac=""
+          style="display: none;"
+        >
+          <p
+            data-v-e92146ac=""
+          >
+            Don't have an account?
+          </p>
+          <a
+            data-v-e92146ac=""
+            href="/register"
+          >
+            Register
+          </a>
+        </span>
+        <button
+          class="login-button"
+          data-v-e92146ac=""
+          type="submit"
+        >
+           Register 
+        </button>
+        <button
+          class="login-button"
+          data-v-e92146ac=""
+          style="display: none;"
+          type="submit"
+        >
+           Login 
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Register tests > matches snapshot 1`] = `
 <div
   data-v-e92146ac=""

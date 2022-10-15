@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import axios from "axios";
 import { shallowMount } from "@vue/test-utils";
 import BucketlistItem from "@/components/BucketlistItem.vue";
-import { bucketlists, items } from "./fixtures.js";
+import { bucketlists, items } from "@/components/__tests__/fixtures.js";
 
 vi.mock("axios", () => {
   return {
@@ -56,6 +56,8 @@ describe("Bucketlist Item tests", () => {
   it("toggles edit and show items", () => {
     wrapper.vm.toggleEdit();
     expect(wrapper.vm.allowEdit).toBeTruthy();
+    wrapper.vm.toggleEdit();
+    expect(wrapper.vm.allowEdit).toBeFalsy();
     wrapper.vm.toggleShowItems();
     expect(wrapper.vm.showItems).toBeTruthy();
   });
@@ -78,7 +80,7 @@ describe("Bucketlist Item tests", () => {
     expect(data.results).toEqual(items);
   });
   it("deletes item", async () => {
-    const { data } = await wrapper.vm.deleteItem();
+    const { data } = await wrapper.vm.removeItem();
     expect(data.results).toEqual("");
   });
   it("updates item", () => {
@@ -86,11 +88,12 @@ describe("Bucketlist Item tests", () => {
     const url = "http://127.0.0.1:8000/bucketlists/20/items/32/";
     const itemToUpdate = wrapper.vm.items.find((itm) => itm.url === url);
     expect(itemToUpdate.done).toEqual(true);
-    const data = {
-      url,
-      done: false,
-    };
-    wrapper.vm.updateItem(data);
+    const updateDone = { url, done: false };
+    wrapper.vm.updateItem(updateDone);
     expect(itemToUpdate.done).toEqual(false);
+    const updateName = { url, name: "Sukuma" };
+    expect(itemToUpdate.name).toEqual("Sukumawiki");
+    wrapper.vm.updateItem(updateName);
+    expect(itemToUpdate.name).toEqual("Sukuma");
   });
 });
