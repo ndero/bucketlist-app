@@ -5,15 +5,8 @@ import BucketlistItem from "@/components/BucketlistItem.vue";
 
 const store = bucketlistStore();
 const { bucketlists, newBucketlist, user, count } = storeToRefs(store);
-const {
-  getBucketlists,
-  addBucketlist,
-  removeBucketlist,
-  updateBucketlist,
-  logout,
-} = store;
 
-getBucketlists();
+store.getBucketlists();
 </script>
 
 <template>
@@ -23,23 +16,21 @@ getBucketlists();
       <span>{{ count }}</span>
       <input placeholder="Search..." type="text" />
       <li id="email">{{ user }}</li>
-      <li id="logout" v-on:click="logout">Logout</li>
+      <li id="logout" v-on:click="store.logout">Logout</li>
     </ul>
     <input
       class="add-bucketlist"
       placeholder="Add a new bucketlist"
       type="text"
       v-model.trim="newBucketlist"
-      v-on:keyup.enter="addBucketlist"
+      v-on:keyup.enter="store.addBucketlist"
     />
     <div class="bucketlist-view">
       <ul v-if="bucketlists.length">
         <bucketlist-item
           v-for="bucketlist in bucketlists"
-          :key="bucketlist.url"
+          :key="bucketlist.id"
           :bucketlist="bucketlist"
-          @delete="removeBucketlist"
-          @update="updateBucketlist"
         />
       </ul>
       <p v-else>You don't have any bucketlist yet.</p>
