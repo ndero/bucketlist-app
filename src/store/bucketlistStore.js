@@ -30,7 +30,6 @@ export const bucketlistStore = defineStore("bucketlist", {
       this.getBucketlists();
     },
     async getBucketlists() {
-      if (bucketlistsUnsubscribe) bucketlistsUnsubscribe();
       bucketlistsUnsubscribe = onSnapshot(bucketlistsRef, (querySnapshot) => {
         let response = [];
         querySnapshot.forEach((doc) => {
@@ -58,6 +57,7 @@ export const bucketlistStore = defineStore("bucketlist", {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
+          if (bucketlistsUnsubscribe) bucketlistsUnsubscribe();
           this.bucketlists = [];
           this.email = "";
           router.replace({ name: "Login" });
