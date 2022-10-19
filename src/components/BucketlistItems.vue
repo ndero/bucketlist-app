@@ -1,12 +1,14 @@
 <script setup>
 import { storeToRefs } from "pinia";
-import { bucketlistStore } from "@/store";
+import { bucketlistStore } from "@/store/bucketlistStore";
+import { authStore } from "@/store/authStore";
 import BucketlistItem from "@/components/BucketlistItem.vue";
 
 const store = bucketlistStore();
+const storeAuth = authStore();
 const { bucketlists, newBucketlist, user, count } = storeToRefs(store);
 
-store.getBucketlists();
+storeAuth.init();
 </script>
 
 <template>
