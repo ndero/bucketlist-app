@@ -14,7 +14,7 @@ export const authStore = defineStore("account", {
       email: "",
       password: "",
       confirmPassword: "",
-      signUp: true,
+      signUp: false,
       errors: "",
       user: {},
     };

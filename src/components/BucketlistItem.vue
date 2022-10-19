@@ -36,6 +36,7 @@ const itemsRef = collection(
   props.bucketlist.id,
   "Items"
 );
+let itemsUnsubscribe = null;
 
 const toggleEdit = (name) => {
   allowEdit.value = !allowEdit.value;
@@ -60,7 +61,8 @@ const toggleBucketlistDone = async (id, done) => {
   return response;
 };
 const getItems = async () => {
-  onSnapshot(itemsRef, (querySnapshot) => {
+  if (itemsUnsubscribe) itemsUnsubscribe();
+  itemsUnsubscribe = onSnapshot(itemsRef, (querySnapshot) => {
     let response = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();

@@ -6,6 +6,7 @@ import { db, postItem, patchItem, deleteItem } from "@/firebase";
 import { authStore } from "@/store/authStore.js";
 
 let bucketlistsRef;
+let bucketlistsUnsubscribe = null;
 
 export const bucketlistStore = defineStore("bucketlist", {
   state: () => {
@@ -29,7 +30,8 @@ export const bucketlistStore = defineStore("bucketlist", {
       this.getBucketlists();
     },
     async getBucketlists() {
-      onSnapshot(bucketlistsRef, (querySnapshot) => {
+      if (bucketlistsUnsubscribe) bucketlistsUnsubscribe();
+      bucketlistsUnsubscribe = onSnapshot(bucketlistsRef, (querySnapshot) => {
         let response = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data();
