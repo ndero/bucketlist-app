@@ -4,8 +4,8 @@
  * create a store for this component as the data here is only being
  * used here.
  */
-import { ref, computed } from "vue";
-import { collection, onSnapshot } from "firebase/firestore";
+import { ref } from "vue";
+import { doc, collection, onSnapshot } from "firebase/firestore";
 import { bucketlistStore } from "@/store/bucketlistStore";
 import { db, patchItem, postItem, deleteItem } from "@/firebase";
 import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
@@ -13,6 +13,10 @@ import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
 const props = defineProps({
   bucketlist: {
     type: Object,
+    required: true,
+  },
+  userId: {
+    type: String,
     required: true,
   },
 });
@@ -24,11 +28,14 @@ const items = ref([]);
 const newItem = ref("");
 
 const store = bucketlistStore();
-
-const itemsUrl = computed(
-  () => `/Users/uHtoDLnWaPlGaMp8guJV/Bucketlists/${props.bucketlist.id}/Items`
+const itemsRef = collection(
+  db,
+  "Users",
+  props.userId,
+  "Bucketlists",
+  props.bucketlist.id,
+  "Items"
 );
-const itemsRef = computed(() => collection(db, itemsUrl.value));
 
 const toggleEdit = (name) => {
   allowEdit.value = !allowEdit.value;
@@ -53,7 +60,7 @@ const toggleBucketlistDone = async (id, done) => {
   return response;
 };
 const getItems = async () => {
-  onSnapshot(itemsRef.value, (querySnapshot) => {
+  onSnapshot(itemsRef, (querySnapshot) => {
     let response = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
@@ -61,21 +68,24 @@ const getItems = async () => {
       response.push({ id, ...data });
     });
     items.value = response;
-    console.log("items: ", response);
   });
 };
 const addItem = async () => {
   const data = { name: newItem.value };
-  const response = await postItem(itemsRef.value, data);
+  const response = await postItem(itemsRef, data);
   newItem.value = "";
   return response;
 };
 const removeItem = async (itemId) => {
-  const response = await deleteItem(itemId);
+  const itemRef = doc(itemsRef, itemId);
+  const response = await deleteItem(itemRef);
   return response;
 };
-const updateItem = async (itemId, data) => {
-  const response = await patchItem(itemId, data);
+const updateItem = async (emitData) => {
+  const { itemId, name, done } = emitData;
+  const data = name ? { name } : { done };
+  const itemRef = doc(itemsRef, itemId);
+  const response = await patchItem(itemRef, data);
   return response;
 };
 </script>

@@ -13,6 +13,7 @@ export const bucketlistStore = defineStore("bucketlist", {
       bucketlists: [],
       newBucketlist: "",
       email: "",
+      userId: "",
     };
   },
   getters: {
@@ -23,6 +24,7 @@ export const bucketlistStore = defineStore("bucketlist", {
       const store = authStore();
       const { email, uid } = store.user;
       this.email = email;
+      this.userId = uid;
       bucketlistsRef = collection(db, "Users", uid, "Bucketlists");
       this.getBucketlists();
     },
@@ -55,6 +57,7 @@ export const bucketlistStore = defineStore("bucketlist", {
       signOut(auth)
         .then(() => {
           this.bucketlists = [];
+          this.email = "";
           router.replace({ name: "Login" });
         })
         .catch((error) => {
