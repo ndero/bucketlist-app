@@ -1,4 +1,3 @@
-[![Coverage Status](https://coveralls.io/repos/github/ndero/bucketlist-frontend/badge.svg?branch=master)](https://coveralls.io/github/ndero/bucketlist-frontend?branch=master)  [![Build Status](https://travis-ci.org/ndero/bucketlist-frontend.svg?branch=master)](https://travis-ci.org/ndero/bucketlist-frontend)
 <h1 align="center">Vue Bucketlist front end</h1>
 <details>
 <summary>
@@ -42,10 +41,6 @@ npm run test:unit
 ```
 
 ##### Run unit tests with coverage
-
 ```
 npm run test:coverage
 ```
-
-##### Setting up the API
-To setup the api to consume with this frontend follow the instructions on this [README](https://github.com/ndero/bucketlist-api).

@@ -57,7 +57,7 @@ describe("Account store", () => {
   it("register user", async () => {
     const store = accountStore();
     await store.registerUser();
-    // TODO: how to check router;
+    // TODO: test router;
   });
 
   it("password checks", async () => {

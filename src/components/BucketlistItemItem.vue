@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { patchItem } from "@/api";
 
 defineProps({
   item: {
@@ -7,7 +8,7 @@ defineProps({
     required: true,
   },
 });
-const emit = defineEmits(["update", "delete"]);
+const emit = defineEmits(["update"]);
 
 const allowEdit = ref(false);
 const newName = ref("");
@@ -20,14 +21,20 @@ const toggleEdit = (name) => {
     newName.value = "";
   }
 };
-const editItem = async (itemId) => {
-  const emitData = { itemId, name: newName.value };
+const editItem = async (url) => {
+  const apiData = { name: newName.value };
+  const emitData = { url, name: newName.value };
+  const response = await patchItem(url, apiData);
   emit("update", emitData);
   toggleEdit();
+  return response;
 };
-const toggleItemDone = async (itemId, done) => {
-  const emitData = { itemId, done: !done };
+const toggleItemDone = async (url, done) => {
+  const apiData = { done: !done };
+  const emitData = { url, done: !done };
+  const response = await patchItem(url, apiData);
   emit("update", emitData);
+  return response;
 };
 </script>
 <template>
@@ -35,17 +42,17 @@ const toggleItemDone = async (itemId, done) => {
     <input
       type="checkbox"
       :checked="item.done"
-      v-on:click.prevent="toggleItemDone(item.id, item.done)"
+      v-on:click.prevent="toggleItemDone(item.url, item.done)"
     />
     <span v-if="!allowEdit">{{ item.name }}</span>
     <input
       v-if="allowEdit"
       v-model="newName"
-      v-on:keyup.enter="editItem(item.id)"
+      v-on:keyup.enter="editItem(item.url)"
       type="text"
     />
     <img src="../assets/edit.png" v-on:click="toggleEdit(item.name)" />
-    <img src="../assets/delete.png" v-on:click="$emit('delete', item.id)" />
+    <img src="../assets/delete.png" v-on:click="$emit('delete', item.url)" />
   </li>
 </template>
 

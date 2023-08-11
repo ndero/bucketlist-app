@@ -1,37 +1,36 @@
 <script setup>
-import { bucketlistStore } from "@/store/bucketlistStore";
-import { authStore } from "@/store/authStore";
+import { storeToRefs } from "pinia";
+import { bucketlistStore } from "@/store";
 import BucketlistItem from "@/components/BucketlistItem.vue";
 
 const store = bucketlistStore();
-const storeAuth = authStore();
+const { bucketlists, newBucketlist, user, count } = storeToRefs(store);
 
-storeAuth.init();
+store.getBucketlists();
 </script>
 
 <template>
   <div id="bucketlists">
     <ul class="navbar">
       <img src="../assets/bucketlist.jpg" />
-      <span>{{ store.count }}</span>
+      <span>{{ count }}</span>
       <input placeholder="Search..." type="text" />
-      <li id="email">{{ store.email }}</li>
+      <li id="email">{{ user }}</li>
       <li id="logout" v-on:click="store.logout">Logout</li>
     </ul>
     <input
       class="add-bucketlist"
       placeholder="Add a new bucketlist"
       type="text"
-      v-model.trim="store.newBucketlist"
+      v-model.trim="newBucketlist"
       v-on:keyup.enter="store.addBucketlist"
     />
     <div class="bucketlist-view">
-      <ul v-if="store.count">
+      <ul v-if="bucketlists.length">
         <bucketlist-item
-          v-for="bucketlist in store.bucketlists"
+          v-for="bucketlist in bucketlists"
           :key="bucketlist.id"
           :bucketlist="bucketlist"
-          :user-id="store.userId"
         />
       </ul>
       <p v-else>You don't have any bucketlist yet.</p>

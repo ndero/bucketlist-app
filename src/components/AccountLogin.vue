@@ -1,8 +1,9 @@
 <script setup>
 import { storeToRefs } from "pinia";
-import { authStore } from "@/store/authStore";
+import { accountStore } from "@/store";
 
-const store = authStore();
+const store = accountStore();
+const { toggleSignUp, loginUser, registerUser } = store;
 const {
   email,
   password,
@@ -22,11 +23,15 @@ const {
           <img src="../assets/bucketlist.jpg" alt="logo" Bucketlist Image />
         </li>
         <li><h1>Bucketlist App</h1></li>
-        <h3 class="login-link">
-          <span v-show="!signUp" v-on:click="store.toggleSignUp">Register</span>
+        <h3>
+          <a href="/register" v-show="!signUp" v-on:click.prevent="toggleSignUp"
+            >Register</a
+          >
         </h3>
-        <h3 class="login-link">
-          <span v-show="signUp" v-on:click="store.toggleSignUp">Login</span>
+        <h3>
+          <a href="/register" v-show="signUp" v-on:click.prevent="toggleSignUp"
+            >Login</a
+          >
         </h3>
       </ul>
       <div class="register-page">
@@ -80,17 +85,17 @@ const {
           </span>
           <span class="login-link" v-show="signUp">
             <p>Already have an account?</p>
-            <span v-on:click="store.toggleSignUp">Sign in</span>
+            <a v-on:click.prevent="toggleSignUp" href="/register">Sign in</a>
           </span>
           <span class="login-link" v-show="!signUp">
             <p>Don't have an account?</p>
-            <span v-on:click="store.toggleSignUp">Register</span>
+            <a v-on:click.prevent="toggleSignUp" href="/register">Register</a>
           </span>
           <button
             class="login-button"
             v-show="signUp"
             type="submit"
-            v-on:click="store.registerUser"
+            v-on:click="registerUser"
           >
             Register
           </button>
@@ -98,7 +103,7 @@ const {
             class="login-button"
             v-show="!signUp"
             type="submit"
-            v-on:click="store.loginUser"
+            v-on:click="loginUser"
           >
             Login
           </button>
@@ -111,7 +116,7 @@ const {
 <style scoped lang="scss">
 #register {
   $screen-width: 900px;
-  background: url(../assets/image.jpg);
+  background: url(../assets/image.jpeg);
   background-size: cover;
   min-height: 100vh;
   #register-foreground {
@@ -119,19 +124,6 @@ const {
     flex-flow: column;
     min-height: 100vh;
     background: rgba(0, 0, 0, 0.8);
-
-    .login-link {
-      text-align: left;
-      padding-left: 2.2em;
-
-      span {
-        cursor: pointer;
-        font-weight: 700;
-        &:hover {
-          color: green;
-        }
-      }
-    }
   }
   .navbar {
     display: flex;
@@ -191,6 +183,10 @@ const {
         padding: 0.5em 2em;
         font-weight: 500;
       }
+      .login-link {
+        text-align: left;
+        padding-left: 2.2em;
+      }
       input {
         background: transparent;
         border: none;
@@ -215,6 +211,14 @@ const {
         color: red;
         font-size: 0.9em;
       }
+    }
+  }
+  a {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    &:hover {
+      color: green;
     }
   }
 }
