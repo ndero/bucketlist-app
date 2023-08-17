@@ -111,7 +111,7 @@ const {
 <style scoped lang="scss">
 #register {
   $screen-width: 900px;
-  background: url(../assets/image.jpg);
+  background: url(../assets/image.jpeg);
   background-size: cover;
   min-height: 100vh;
   #register-foreground {
