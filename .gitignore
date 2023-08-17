@@ -26,3 +26,8 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# firebase hosting
+.firebase/*
+.firebaserc
+firebase.json
