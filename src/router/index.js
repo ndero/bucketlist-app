@@ -1,19 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
 import AccountLogin from "@/components/AccountLogin.vue";
 import BucketlistItems from "@/components/BucketlistItems.vue";
-// import { authStore } from "@/store/authStore";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/login",
+      path: "/",
       name: "Login",
       component: AccountLogin,
       meta: { requiresAuth: false },
     },
     {
-      path: "/",
+      path: "/bucketlists",
       name: "BucketlistItems",
       component: BucketlistItems,
       meta: { requiresAuth: true },
@@ -25,13 +24,6 @@ const router = createRouter({
   ],
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   const store = authStore();
-//   if (!store.loggedIn && !to.meta.requiresAuth) {
-//     next({ name: "Login" });
-//   } else {
-//     next();
-//   }
-// });
+// TODO: add router guard
 
 export default router;
