@@ -5,22 +5,38 @@
  * used here.
  */
 import { ref } from "vue";
-import { patchItem, getItem, postItem, deleteItem } from "@/api";
+import { doc, collection, onSnapshot } from "firebase/firestore";
+import { bucketlistStore } from "@/store/bucketlistStore";
+import { db, patchItem, postItem, deleteItem } from "@/firebase";
 import BucketlistItemItem from "@/components/BucketlistItemItem.vue";
 
-defineProps({
+const props = defineProps({
   bucketlist: {
     type: Object,
     required: true,
   },
+  userId: {
+    type: String,
+    required: true,
+  },
 });
-const emit = defineEmits(["update"]);
 
 const showItems = ref(false);
 const allowEdit = ref(false);
 const newName = ref("");
 const items = ref([]);
 const newItem = ref("");
+
+const store = bucketlistStore();
+const itemsRef = collection(
+  db,
+  "Users",
+  props.userId,
+  "Bucketlists",
+  props.bucketlist.id,
+  "Items"
+);
+let itemsUnsubscribe = null;
 
 const toggleEdit = (name) => {
   allowEdit.value = !allowEdit.value;
@@ -33,47 +49,46 @@ const toggleEdit = (name) => {
 const toggleShowItems = () => {
   showItems.value = !showItems.value;
 };
-const editBucketlist = async (url) => {
-  const apiData = { name: newName.value };
-  const emitData = { url, name: newName.value };
-  const response = await patchItem(url, apiData);
-  emit("update", emitData);
+const editBucketlist = async (id) => {
+  const data = { name: newName.value };
+  const response = await store.updateBucketlist(id, data);
   toggleEdit();
   return response;
 };
-const toggleBucketlistDone = async (url, done) => {
-  const apiData = { done: !done };
-  const emitData = { url, done: !done };
-  const response = await patchItem(url, apiData);
-  emit("update", emitData);
+const toggleBucketlistDone = async (id, done) => {
+  const data = { done: !done };
+  const response = await store.updateBucketlist(id, data);
   return response;
 };
-const getItems = async (url) => {
-  const response = await getItem(url);
-  items.value = response.data.results;
-  return response;
+const getItems = async () => {
+  if (itemsUnsubscribe) itemsUnsubscribe();
+  itemsUnsubscribe = onSnapshot(itemsRef, (querySnapshot) => {
+    let response = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const { id } = doc;
+      response.push({ id, ...data });
+    });
+    items.value = response;
+  });
 };
-const addItem = async (url) => {
+const addItem = async () => {
   const data = { name: newItem.value };
-  const response = await postItem(url, data);
-  items.value.unshift(response.data);
   newItem.value = "";
+  const response = await postItem(itemsRef, data);
   return response;
 };
-const removeItem = async (url) => {
-  const response = await deleteItem(url);
-  const index = items.value.map((item) => item.url).indexOf(url);
-  items.value.splice(index, 1);
+const removeItem = async (itemId) => {
+  const itemRef = doc(itemsRef, itemId);
+  const response = await deleteItem(itemRef);
   return response;
 };
-const updateItem = async (data) => {
-  const { url, name, done } = data;
-  const item = items.value.find((itm) => itm.url === url);
-  if (name) {
-    item.name = name;
-  } else {
-    item.done = done;
-  }
+const updateItem = async (emitData) => {
+  const { itemId, name, done } = emitData;
+  const data = name ? { name } : { done };
+  const itemRef = doc(itemsRef, itemId);
+  const response = await patchItem(itemRef, data);
+  return response;
 };
 </script>
 
@@ -84,7 +99,7 @@ const updateItem = async (data) => {
         <input
           type="checkbox"
           v-on:click.prevent="
-            toggleBucketlistDone(bucketlist.url, bucketlist.done)
+            toggleBucketlistDone(bucketlist.id, bucketlist.done)
           "
           :checked="bucketlist.done"
         />
@@ -92,12 +107,12 @@ const updateItem = async (data) => {
           v-if="allowEdit"
           type="text"
           v-model="newName"
-          v-on:keyup.enter="editBucketlist(bucketlist.url)"
+          v-on:keyup.enter="editBucketlist(bucketlist.id)"
         />
         <span
           v-if="!allowEdit"
           v-on:click="toggleShowItems"
-          v-on:click.once="getItems(bucketlist.items_url)"
+          v-on:click.once="getItems"
         >
           {{ bucketlist.name }}
         </span>
@@ -107,7 +122,7 @@ const updateItem = async (data) => {
         />
         <img
           src="../assets/delete.png"
-          v-on:click="$emit('delete', bucketlist.url)"
+          v-on:click="store.removeBucketlist(bucketlist.id)"
         />
       </div>
       <div class="items-view" v-if="showItems">
@@ -116,12 +131,12 @@ const updateItem = async (data) => {
           placeholder="Add an item"
           type="text"
           v-model.trim="newItem"
-          v-on:keyup.enter="addItem(bucketlist.items_url)"
+          v-on:keyup.enter="addItem"
         />
         <ul v-if="items.length">
           <bucketlist-item-item
             v-for="item in items"
-            :key="item.url"
+            :key="item.id"
             :item="item"
             @delete="removeItem"
             @update="updateItem"

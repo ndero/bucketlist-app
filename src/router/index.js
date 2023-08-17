@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import AccountLogin from "@/components/AccountLogin.vue";
 import BucketlistItems from "@/components/BucketlistItems.vue";
+// import { authStore } from "@/store/authStore";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,18 +25,13 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (window.localStorage.getItem("token") == null) {
-      next({ name: "Login" });
-    } else {
-      next();
-    }
-  } else if (window.localStorage.getItem("token") != null) {
-    next({ name: "BucketlistItems" });
-  } else {
-    next();
-  }
-});
+// router.beforeEach(async (to, from, next) => {
+//   const store = authStore();
+//   if (!store.loggedIn && !to.meta.requiresAuth) {
+//     next({ name: "Login" });
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;
